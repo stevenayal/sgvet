@@ -1,0 +1,3 @@
+com/sgvet/base/App.class
+com/sgvet/base/boundary/UsuarioManager.class
+com/sgvet/base/boundary/DbManager.class
