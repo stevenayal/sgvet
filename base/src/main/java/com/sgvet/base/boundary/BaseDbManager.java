@@ -11,17 +11,18 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DbManager {
+public class BaseDbManager {
 
     private static final String DB_NAME = "sgvetDB";
-    private static final String DB_URL = "jdbc:derby:" + DB_NAME + ";create=true";
+    // Cambia la URL para usar Derby en memoria
+    private static final String DB_URL = "jdbc:derby:memory:" + DB_NAME + ";create=true";
     private static final String INIT_SQL_RESOURCE = "db/init.sql";
 
-    private static DbManager instance;
+    private static BaseDbManager instance;
     public Connection connection;
 
     // Constructor privado (solo se ejecuta una vez)
-    private DbManager() {
+    private BaseDbManager() {
         try {
             this.connection = DriverManager.getConnection(DB_URL);
             System.out.println("Conexión establecida con Derby.");
@@ -34,9 +35,9 @@ public class DbManager {
     }
 
     // Singleton: devuelve la única instancia
-    public static synchronized DbManager getInstance() {
+    public static synchronized BaseDbManager getInstance() {
         if (instance == null) {
-            instance = new DbManager();
+            instance = new BaseDbManager();
         }
         return instance;
     }
@@ -46,7 +47,7 @@ public class DbManager {
     }
 
     // Ejecuta el script SQL de inicialización
-    private void runSqlScript(String filePath) throws IOException, SQLException {
+    public void runSqlScript(String filePath) throws IOException, SQLException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
              Statement stmt = connection.createStatement()) {
 
@@ -66,7 +67,7 @@ public class DbManager {
             }
         }
     }
-    private void runSqlScriptFromResources(String resourcePath) throws IOException, SQLException {
+    public void runSqlScriptFromResources(String resourcePath) throws IOException, SQLException {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (is == null) {
                 throw new IOException("Archivo no encontrado en resources: " + resourcePath);
@@ -98,7 +99,7 @@ public class DbManager {
     }
 
     public static void main(String[] args) {
-        DbManager dbConnection = new DbManager();
+        BaseDbManager dbConnection = new BaseDbManager();
         System.out.println("Base de datos inicializada correctamente.");
     }
 }
