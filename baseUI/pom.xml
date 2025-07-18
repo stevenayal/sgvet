@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sgvet</groupId>
-  <artifactId>base</artifactId>
+  <artifactId>ui</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>base</name>
+  <name>ui</name>
   <url>http://maven.apache.org</url>
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -13,16 +13,15 @@
     </properties>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-     <dependency>
-        <groupId>org.apache.derby</groupId>
-        <artifactId>derby</artifactId>
-        <version>10.15.2.0</version>
-    </dependency>
+      <groupId>com.sgvet</groupId>
+      <artifactId>base</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      </dependency>
+       <dependency>
+      <groupId>com.sgvet</groupId>
+      <artifactId>cliente</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      </dependency>
   </dependencies>
   <build>
   <plugins>
