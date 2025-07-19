@@ -4,3 +4,6 @@ cliente/target/*
 cliente/target/
 base/target/
 base/target/*
+mascota/target/
+mascota/target/*
+.git/
