@@ -1,23 +1,36 @@
-package com.sgvet.cliente.entity;
+package com.sgvet.mascota.entity;
 
-public class Cliente {
+public class Mascota {
 
     private Integer id;
-
     private String nombre;
     private String apellido;
     private Integer edad;
     private String telefono;
+    private Integer idCliente;
+    private String tipoMascota;
+    private String raza;
 
-    public Cliente() {
+    public Mascota() {
     }
 
-    public Cliente(Integer id, String nombre, String apellido, Integer edad, String telefono) {
+    public Mascota(Integer id, String nombre, String apellido, Integer edad, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.telefono = telefono;
+    }
+
+    public Mascota(Integer id, String nombre, String apellido, Integer edad, String telefono, Integer idCliente, String tipoMascota, String raza) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.telefono = telefono;
+        this.idCliente = idCliente;
+        this.tipoMascota = tipoMascota;
+        this.raza = raza;
     }
 
     // Getters y setters
@@ -60,6 +73,30 @@ public class Cliente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getTipoMascota() {
+        return tipoMascota;
+    }
+
+    public void setTipoMascota(String tipoMascota) {
+        this.tipoMascota = tipoMascota;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
     }
 
     @Override
