@@ -28,5 +28,10 @@ public class ProveedorController {
         // Lógica para listar todos los Proveedors
         return proveedorRepository.listarTodos();
     }
+
+    public Proveedor registrarProveedor(Proveedor proveedor){
+        proveedorRepository.insertar(proveedor);
+        return proveedor;
+    }
     
 }
