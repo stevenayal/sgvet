@@ -20,7 +20,7 @@ public class MascotaDbManager {
     protected MascotaDbManager() {
         try {
             System.out.println("Inicializando base Mascotas desde: " + INIT_SQL_RESOURCE);
-            base.runSqlScriptFromResourceXASADF(INIT_SQL_RESOURCE);
+            base.runSqlScriptFromResources(INIT_SQL_RESOURCE);
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Error inicializando la base", e);
         }
