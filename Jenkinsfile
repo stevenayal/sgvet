@@ -11,6 +11,16 @@ pipeline {
                 dir('base') { // Cambia 'base' por el nombre de tu carpeta
                     sh 'mvn clean install'
                 }
+
+                dir('cliente') { // Cambia 'base' por el nombre de tu carpeta
+                    sh 'mvn clean install'
+                }
+                dir('proveedor') { // Cambia 'base' por el nombre de tu carpeta
+                    sh 'mvn clean install'
+                }
+                dir('mascota') { // Cambia 'base' por el nombre de tu carpeta
+                    sh 'mvn clean install'
+                }
             }
         }
 
