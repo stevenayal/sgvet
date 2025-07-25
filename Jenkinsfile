@@ -2,14 +2,10 @@ pipeline {
     agent any // Specifies that the pipeline can run on any available agent
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/UCOM-Seminario1/sgvet.git' 
-            }
-        }
-
-        stage('Build & SonarQube Analysis') {
+        
+        stage('Build') {
            steps {
+
                 dir('base') { // Cambia 'base' por el nombre de tu carpeta
                     sh 'mvn clean install'
                 }
