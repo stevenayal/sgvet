@@ -18,7 +18,7 @@ public class UsuarioManager {
                 System.out.printf("ID: %d, Nombre: %s%n", rs.getInt("ID"), rs.getString("NOMBRE"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al consultar la base de datos: " + e.getMessage());
         }
     }
 }

@@ -1,4 +1,5 @@
 package com.sgvet.base.boundary;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,10 +9,12 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.log4j.Logger;
 
 public class BaseDbManager {
+
+    private static final Logger logger = Logger.getLogger(BaseDbManager.class);
 
     private static final String DB_NAME = "sgvetDB";
     // Cambia la URL para usar Derby en memoria
@@ -25,11 +28,12 @@ public class BaseDbManager {
     private BaseDbManager() {
         try {
             this.connection = DriverManager.getConnection(DB_URL);
-            System.out.println("Conexión establecida con Derby.");
+            logger.info("Conexión establecida con Derby.");
 
-                System.out.println("Inicializando la base de datos desde init.sql...");
-                runSqlScriptFromResources(INIT_SQL_RESOURCE);
+            logger.info("Inicializando la base de datos desde init.sql...");
+            runSqlScriptFromResources(INIT_SQL_RESOURCE);
         } catch (SQLException | IOException e) {
+            logger.error("Error al inicializar la base de datos Derby", e);
             throw new RuntimeException("Error al inicializar la base de datos Derby", e);
         }
     }
@@ -100,6 +104,6 @@ public class BaseDbManager {
 
     public static void main(String[] args) {
         BaseDbManager dbConnection = new BaseDbManager();
-        System.out.println("Base de datos inicializada correctamente.");
+        logger.info("Base de datos inicializada correctamente.");
     }
 }
