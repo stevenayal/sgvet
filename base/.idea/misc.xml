@@ -7,8 +7,10 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../cliente/pom.xml" />
         <option value="$PROJECT_DIR$/../baseUI/pom.xml" />
+        <option value="$PROJECT_DIR$/../mascota/pom.xml" />
+        <option value="$PROJECT_DIR$/../proveedor/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_24" default="true" project-jdk-name="24" project-jdk-type="JavaSDK" />
 </project>
