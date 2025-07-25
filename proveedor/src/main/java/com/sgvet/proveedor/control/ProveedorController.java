@@ -120,5 +120,10 @@ public class ProveedorController {
             return false;
         }
     }
+
+    public Proveedor registrarProveedor(Proveedor proveedor){
+        proveedorRepository.insertar(proveedor);
+        return proveedor;
+    }
     
 }

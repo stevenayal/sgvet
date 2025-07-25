@@ -1,0 +1,3 @@
+com\sgvet\base\boundary\BaseDbManager.class
+com\sgvet\usuario\control\UsuarioController.class
+com\sgvet\usuario\boundary\UsuarioManager.class

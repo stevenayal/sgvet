@@ -42,13 +42,19 @@ public class ProveedorRepository {
     public void insertar(Proveedor proveedor) {
         String sql = "INSERT INTO Proveedor (ID, NOMBRE, RAZONSOCIAL, TELEFONO, CORREO) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = ProveedorDbManager.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = ProveedorDbManager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, proveedor.getId());
             ps.setString(2, proveedor.getNombre());
             ps.setString(3, proveedor.getRazonSocial());
             ps.setString(4, proveedor.getTelefono());
             ps.setString(5, proveedor.getCorreo());
             ps.executeUpdate();
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    proveedor.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

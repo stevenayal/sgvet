@@ -60,8 +60,29 @@ public class ProveedorUI {
     }
 
     private static void crearProveedor(Scanner scanner) {
-        System.out.println("Funcionalidad para crear proveedor (pendiente de implementar).");
-        // Aquí iría la lógica para crear un proveedor
+        System.out.println("=== Registrar nuevo proveedor ===");
+
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("Razón Social: ");
+        String razonSocial = scanner.nextLine();
+
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+
+        System.out.print("Correo: ");
+        String correo = scanner.nextLine();
+
+        Proveedor proveedor = new Proveedor();
+        proveedor.setId(4);
+        proveedor.setNombre(nombre);
+        proveedor.setRazonSocial(razonSocial);
+        proveedor.setTelefono(telefono);
+        proveedor.setCorreo(correo);
+
+        Proveedor guardado = proveedorController.registrarProveedor(proveedor);
+        System.out.println("Proveedor registrado exitosamente: " + guardado);
     }
 
     private static void listarProveedors() {
