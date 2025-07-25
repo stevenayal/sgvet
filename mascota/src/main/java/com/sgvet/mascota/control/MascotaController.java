@@ -28,5 +28,9 @@ public class MascotaController {
         // Lógica para listar todos los Mascotas
         return mascotaRepository.listarTodos();
     }
+
+    public boolean eliminarMascota(int id) {
+        return mascotaRepository.eliminarPorId(id);
+    }
     
 }
