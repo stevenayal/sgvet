@@ -7,7 +7,6 @@ pipeline {
         
         stage('Build') {
            steps {
-                sh 'sudo apt-get install maven'
 
                 dir('base') { // Cambia 'base' por el nombre de tu carpeta
                     sh 'mvn clean install'
