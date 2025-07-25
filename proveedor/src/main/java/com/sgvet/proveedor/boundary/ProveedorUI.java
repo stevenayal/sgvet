@@ -72,6 +72,7 @@ public class ProveedorUI {
         String correo = scanner.nextLine();
 
         Proveedor proveedor = new Proveedor();
+        proveedor.setId(4);
         proveedor.setNombre(nombre);
         proveedor.setRazonSocial(razonSocial);
         proveedor.setTelefono(telefono);
