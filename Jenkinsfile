@@ -1,8 +1,7 @@
 pipeline {
     agent any // Specifies that the pipeline can run on any available agent
     tools {
-            maven 'Maven_3.9.1' // Replace with your configured Maven tool name
-            jdk 'JDK_11'      // Replace with your configured JDK tool name
+            maven 'mvn' // Replace with your configured Maven tool name
         }
     stages {
         
