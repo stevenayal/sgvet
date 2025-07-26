@@ -10,6 +10,8 @@
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Configuración para SonarQube: ubicación de los tests -->
+        <sonar.tests>src/test/java</sonar.tests>
     </properties>
   <dependencies>
     <!-- JUnit 4 para pruebas unitarias -->
