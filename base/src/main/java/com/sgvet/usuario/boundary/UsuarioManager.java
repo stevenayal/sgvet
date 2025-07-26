@@ -22,7 +22,7 @@ public class UsuarioManager {
                 logger.info(String.format("ID: %d, Nombre: %s", rs.getInt("ID"), rs.getString("NOMBRE")));
             }
         } catch (Exception e) {
-            logger.error("Error al consultar la base de datos: " + e.getMessage(), e);
+            logger.error("Error al consultar la base de datos : " + e.getMessage(), e);
         }
     }
 }
