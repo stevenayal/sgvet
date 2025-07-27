@@ -1,3 +1,6 @@
+-- Crear tablas (Derby manejará automáticamente si ya existen)
+
+-- Crear tabla PROVEEDOR
 CREATE TABLE PROVEEDOR (
     ID INT PRIMARY KEY,
     NOMBRE VARCHAR(50),
@@ -11,6 +14,7 @@ INSERT INTO PROVEEDOR (ID, NOMBRE, RAZONSOCIAL, TELEFONO, CORREO) VALUES
 (2, 'VetPro Insumos', 'VetPro SRL', '0981-654321', 'ventas@vetpro.com'),
 (3, 'Mascotas y Más', 'Mascotas y Más Ltda.', '0981-789012', 'info@mascotasymas.com');
 
+-- Crear tabla RRHH
 CREATE TABLE RRHH (
     ID INT PRIMARY KEY,
     NOMBRE VARCHAR(50),
@@ -28,8 +32,9 @@ INSERT INTO RRHH (ID, NOMBRE, APELLIDO, CEDULA, TELEFONO, CORREO, CARGO, ESPECIA
 (3, 'María', 'Fernández', '3456789', '0981-333333', 'maria.fernandez@vet.com', 'Recepcionista', 'Administración');
 
 -- Tabla para registrar evaluaciones de desempeño del personal
+-- Usar GENERATED ALWAYS AS IDENTITY en lugar de AUTO_INCREMENT para compatibilidad con Derby
 CREATE TABLE EVALUACIONDESEMPENO (
-     ID INT PRIMARY KEY AUTO_INCREMENT,
+     ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
      ID_EMPLEADO INT NOT NULL,
      FECHA DATE NOT NULL,
      PUNTUALIDAD INT CHECK (PUNTUALIDAD BETWEEN 1 AND 10),
