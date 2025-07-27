@@ -31,8 +31,9 @@ public class RRHHUI {
             System.out.println("6. Solicitar Vacaciones");
             System.out.println("7. Solicitar Permiso");
             System.out.println("8. Evaluaciones de Desempeño");
+            System.out.println("9. Calcular Bonificación");
             System.out.println("0. Volver al menu principal");
-            System.out.print("Seleccione una opcion (0-8): ");
+            System.out.print("Seleccione una opcion (0-9): ");
 
             if (scanner.hasNextInt()) {
                 opcion = scanner.nextInt();
@@ -61,6 +62,9 @@ public class RRHHUI {
                         break;
                     case 8:
                         menuEvaluaciones(scanner);
+                        break;
+                    case 9:
+                        calcularBonificacion(scanner);
                         break;
                     case 0:
                         System.out.println("Volviendo al menu principal...");
@@ -326,6 +330,45 @@ public class RRHHUI {
                 System.out.println("Observaciones: " + e.getObservaciones());
                 System.out.println("----------------------------------");
             }
+        }
+    }
+
+    private static void calcularBonificacion(Scanner scanner) {
+        System.out.println("\n--- Calcular Bonificación ---");
+        
+        try {
+            System.out.print("Ingrese el salario base: $");
+            double salarioBase = scanner.nextDouble();
+            
+            System.out.print("Ingrese el porcentaje de bonificación (%): ");
+            double porcentajeBonificacion = scanner.nextDouble();
+            
+            // Validaciones
+            if (salarioBase <= 0) {
+                System.out.println("❌ Error: El salario base debe ser mayor a 0.");
+                return;
+            }
+            
+            if (porcentajeBonificacion < 0 || porcentajeBonificacion > 100) {
+                System.out.println("❌ Error: El porcentaje de bonificación debe estar entre 0 y 100.");
+                return;
+            }
+            
+            // Cálculos
+            double montoBonificacion = salarioBase * (porcentajeBonificacion / 100);
+            double totalAPagar = salarioBase + montoBonificacion;
+            
+            // Mostrar resultados
+            System.out.println("\n--- Resultados del Cálculo ---");
+            System.out.println("Salario Base: $" + String.format("%.2f", salarioBase));
+            System.out.println("Porcentaje de Bonificación: " + String.format("%.1f", porcentajeBonificacion) + "%");
+            System.out.println("Monto de Bonificación: $" + String.format("%.2f", montoBonificacion));
+            System.out.println("Total a Pagar: $" + String.format("%.2f", totalAPagar));
+            System.out.println("✅ Cálculo completado exitosamente.");
+            
+        } catch (Exception e) {
+            System.out.println("❌ Error: Por favor ingrese valores numéricos válidos.");
+            scanner.nextLine(); // Limpiar buffer
         }
     }
 }
