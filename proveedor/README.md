@@ -1,2 +1,5 @@
-### Modulo Proveedores
-* Funcionalidad: Editar Proveedor
+## Modulo de gestion de proveedores SgVet
+Funcionalidades
+* Consultar proveedores
+* Registrar proveedores
+* Editar Proveedor
