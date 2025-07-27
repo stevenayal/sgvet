@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Jul 27 19:08:41 PYT 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0198-4e25-40e0-00000ef8c708 
+Sun Jul 27 19:20:06 PYT 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0198-4e2f-b4ce-00000eeeac90 
 on database directory memory:Z:\Proyectos\sgvet\rrhh\sgvetDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
 Loaded from file:/C:/Users/stevg/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
 java.vendor=Oracle Corporation

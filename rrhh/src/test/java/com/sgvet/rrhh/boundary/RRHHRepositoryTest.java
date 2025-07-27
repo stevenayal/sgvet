@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.AfterEach;
 
 import java.util.List;
 
@@ -23,6 +24,12 @@ class RRHHRepositoryTest {
     void setUp() {
         repository = new RRHHRepository();
         // Limpiar la tabla antes de cada test para evitar conflictos de IDs
+        repository.limpiarTabla();
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Limpiar la tabla después de cada test
         repository.limpiarTabla();
     }
 
@@ -47,6 +54,8 @@ class RRHHRepositoryTest {
             RRHH encontrado = repository.buscarPorId(1);
             assertNotNull(encontrado, "Debería encontrar el RRHH insertado");
             assertEquals("Juan", encontrado.getNombre(), "El nombre debería coincidir");
+            assertEquals("Pérez", encontrado.getApellido(), "El apellido debería coincidir");
+            assertEquals("12345678", encontrado.getCedula(), "La cédula debería coincidir");
         }
 
         @Test
@@ -89,6 +98,39 @@ class RRHHRepositoryTest {
             // Assert
             assertTrue(resultado1, "Primera inserción debería ser exitosa");
             assertFalse(resultado2, "Segunda inserción con mismo ID debería fallar");
+            
+            // Verificar que solo existe el primer RRHH
+            RRHH encontrado = repository.buscarPorId(100);
+            assertNotNull(encontrado, "Debería encontrar el primer RRHH");
+            assertEquals("Juan", encontrado.getNombre(), "Debería mantener el nombre del primer RRHH");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es negativo")
+        void deberiaRetornarFalseCuandoIDEsNegativo() {
+            // Arrange
+            RRHH rrhh = new RRHH(-1, "Juan", "Pérez", "12345678", "555-1234", 
+                                "juan.perez@email.com", "Veterinario", "Cirugía");
+
+            // Act
+            boolean resultado = repository.insertar(rrhh);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es negativo");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es cero")
+        void deberiaRetornarFalseCuandoIDEsCero() {
+            // Arrange
+            RRHH rrhh = new RRHH(0, "Juan", "Pérez", "12345678", "555-1234", 
+                                "juan.perez@email.com", "Veterinario", "Cirugía");
+
+            // Act
+            boolean resultado = repository.insertar(rrhh);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es cero");
         }
     }
 
@@ -114,6 +156,10 @@ class RRHHRepositoryTest {
             // Assert
             assertNotNull(resultado, "La lista no debería ser null");
             assertEquals(2, resultado.size(), "Debería retornar 2 RRHH");
+            
+            // Verificar que los RRHH están ordenados por ID
+            assertEquals(1, resultado.get(0).getId(), "El primer RRHH debería tener ID 1");
+            assertEquals(2, resultado.get(1).getId(), "El segundo RRHH debería tener ID 2");
         }
 
         @Test
@@ -147,6 +193,7 @@ class RRHHRepositoryTest {
             assertNotNull(resultado, "Debería encontrar el RRHH");
             assertEquals(1, resultado.getId(), "El ID debería coincidir");
             assertEquals("Juan", resultado.getNombre(), "El nombre debería coincidir");
+            assertEquals("Pérez", resultado.getApellido(), "El apellido debería coincidir");
         }
 
         @Test
@@ -157,6 +204,26 @@ class RRHHRepositoryTest {
 
             // Assert
             assertNull(resultado, "Debería retornar null cuando no encuentra el RRHH");
+        }
+
+        @Test
+        @DisplayName("Debería retornar null cuando ID es negativo")
+        void deberiaRetornarNullCuandoIDEsNegativo() {
+            // Act
+            RRHH resultado = repository.buscarPorId(-1);
+
+            // Assert
+            assertNull(resultado, "Debería retornar null cuando ID es negativo");
+        }
+
+        @Test
+        @DisplayName("Debería retornar null cuando ID es cero")
+        void deberiaRetornarNullCuandoIDEsCero() {
+            // Act
+            RRHH resultado = repository.buscarPorId(0);
+
+            // Assert
+            assertNull(resultado, "Debería retornar null cuando ID es cero");
         }
     }
 
@@ -192,6 +259,26 @@ class RRHHRepositoryTest {
             // Assert
             assertFalse(resultado, "Debería retornar false cuando no existe el ID");
         }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es negativo")
+        void deberiaRetornarFalseCuandoIDEsNegativo() {
+            // Act
+            boolean resultado = repository.eliminarPorId(-1);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es negativo");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es cero")
+        void deberiaRetornarFalseCuandoIDEsCero() {
+            // Act
+            boolean resultado = repository.eliminarPorId(0);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es cero");
+        }
     }
 
     @Nested
@@ -220,6 +307,7 @@ class RRHHRepositoryTest {
             assertNotNull(encontrado, "Debería encontrar el RRHH actualizado");
             assertEquals("Juan Carlos", encontrado.getNombre(), "El nombre debería estar actualizado");
             assertEquals("Veterinario Senior", encontrado.getCargo(), "El cargo debería estar actualizado");
+            assertEquals("juan.carlos@email.com", encontrado.getCorreo(), "El correo debería estar actualizado");
         }
 
         @Test
@@ -258,6 +346,34 @@ class RRHHRepositoryTest {
 
             // Assert
             assertFalse(resultado, "Debería retornar false cuando no existe el RRHH");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es negativo")
+        void deberiaRetornarFalseCuandoIDEsNegativo() {
+            // Arrange
+            RRHH rrhh = new RRHH(-1, "Juan", "Pérez", "12345678", "555-1234", 
+                                "juan.perez@email.com", "Veterinario", "Cirugía");
+
+            // Act
+            boolean resultado = repository.actualizar(rrhh);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es negativo");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es cero")
+        void deberiaRetornarFalseCuandoIDEsCero() {
+            // Arrange
+            RRHH rrhh = new RRHH(0, "Juan", "Pérez", "12345678", "555-1234", 
+                                "juan.perez@email.com", "Veterinario", "Cirugía");
+
+            // Act
+            boolean resultado = repository.actualizar(rrhh);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es cero");
         }
     }
 
@@ -310,6 +426,46 @@ class RRHHRepositoryTest {
 
             // Assert
             assertEquals(6, siguienteId, "Debería retornar el siguiente ID disponible");
+        }
+
+        @Test
+        @DisplayName("Debería verificar existencia por ID correctamente")
+        void deberiaVerificarExistenciaPorIDCorrectamente() {
+            // Arrange
+            RRHH rrhh = new RRHH(1, "Juan", "Pérez", "12345678", "555-1234", 
+                                "juan.perez@email.com", "Veterinario", "Cirugía");
+            repository.insertar(rrhh);
+
+            // Act & Assert
+            assertTrue(repository.existePorId(1), "Debería existir el RRHH con ID 1");
+            assertFalse(repository.existePorId(999), "No debería existir el RRHH con ID 999");
+            assertFalse(repository.existePorId(-1), "No debería existir el RRHH con ID negativo");
+        }
+
+        @Test
+        @DisplayName("Debería contar registros correctamente")
+        void deberiaContarRegistrosCorrectamente() {
+            // Act - tabla vacía
+            int countVacio = repository.contarRegistros();
+            assertEquals(0, countVacio, "Debería contar 0 registros cuando la tabla está vacía");
+
+            // Arrange - agregar registros
+            RRHH rrhh1 = new RRHH(1, "Juan", "Pérez", "12345678", "555-1234", 
+                                 "juan.perez@email.com", "Veterinario", "Cirugía");
+            RRHH rrhh2 = new RRHH(2, "María", "García", "87654321", "555-5678", 
+                                 "maria.garcia@email.com", "Asistente", "Clínica");
+            
+            repository.insertar(rrhh1);
+            repository.insertar(rrhh2);
+
+            // Act - tabla con registros
+            int countConRegistros = repository.contarRegistros();
+            assertEquals(2, countConRegistros, "Debería contar 2 registros");
+
+            // Act - eliminar un registro
+            repository.eliminarPorId(1);
+            int countDespuesEliminar = repository.contarRegistros();
+            assertEquals(1, countDespuesEliminar, "Debería contar 1 registro después de eliminar");
         }
     }
 } 
