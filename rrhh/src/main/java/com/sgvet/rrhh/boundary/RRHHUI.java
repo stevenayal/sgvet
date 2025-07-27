@@ -167,8 +167,7 @@ public class RRHHUI {
             System.out.println("No se pudo solicitar el permiso. Verifique el ID.");
         }
     }
-}
-    
+
     private static void actualizarEmpleado(Scanner scanner) {
         System.out.println("\n--- Actualizar Datos del Empleado ---");
         
