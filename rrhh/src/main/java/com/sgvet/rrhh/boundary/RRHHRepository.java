@@ -56,4 +56,16 @@ public class RRHHRepository {
             e.printStackTrace();
         }
     }
+
+    public boolean eliminarPorId(int id) {
+        String sql = "DELETE FROM RRHH WHERE ID = ?";
+        try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

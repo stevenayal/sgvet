@@ -28,8 +28,8 @@ public class RRHHController {
         return rrhhRepository.listarTodos();
     }
 
-    public void eliminarRRHH(int id) {
-//        rrhhRepository.eliminarPorId(id);
+    public boolean eliminarRRHH(int id) {
+        return rrhhRepository.eliminarPorId(id);
     }
 
     public RRHH buscarRRHH(int id) {
