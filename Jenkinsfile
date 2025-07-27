@@ -1,14 +1,17 @@
 pipeline {
     agent any
     
+    // Configuración de herramientas - Comentada la configuración específica de JDK
+    // para usar el JDK del sistema o configurar manualmente en Jenkins
     tools {
         maven 'mvn'
-        jdk 'jdk-11'
+        // jdk 'jdk-11'  // Comentado: requiere configuración específica en Jenkins
     }
     
     environment {
         SONARQUBE_ENV = 'sonarqube'
-        JAVA_HOME = tool('jdk-11')
+        // JAVA_HOME se establecerá automáticamente o se puede configurar manualmente
+        // JAVA_HOME = tool('jdk-11')  // Comentado: requiere JDK configurado por nombre
         MAVEN_OPTS = '-Xmx2048m -XX:MaxPermSize=512m'
         COVERAGE_THRESHOLD = '80'
         TEST_TIMEOUT = '30'
@@ -52,7 +55,30 @@ pipeline {
                     echo "Skip Tests: ${params.SKIP_TESTS}"
                     echo "Skip Sonar: ${params.SKIP_SONAR}"
                     echo "Coverage Threshold: ${params.CUSTOM_COVERAGE_THRESHOLD}%"
-                    echo "Java Version: ${JAVA_HOME}"
+                    
+                    // Verificar configuración de Java y Maven
+                    sh 'java -version'
+                    sh 'mvn -version'
+                    
+                    // Establecer JAVA_HOME si no está definido
+                    if (env.JAVA_HOME == null || env.JAVA_HOME.isEmpty()) {
+                        def javaHome = sh(script: 'echo $JAVA_HOME', returnStdout: true).trim()
+                        if (javaHome.isEmpty()) {
+                            // Intentar encontrar Java en ubicaciones comunes
+                            def javaPath = sh(script: 'which java', returnStdout: true).trim()
+                            if (!javaPath.isEmpty()) {
+                                def javaDir = sh(script: 'dirname $(dirname $(readlink -f $(which java)))', returnStdout: true).trim()
+                                env.JAVA_HOME = javaDir
+                                echo "JAVA_HOME configurado automáticamente: ${env.JAVA_HOME}"
+                            } else {
+                                echo "⚠️ ADVERTENCIA: JAVA_HOME no está configurado. El build puede fallar."
+                            }
+                        } else {
+                            env.JAVA_HOME = javaHome
+                        }
+                    }
+                    
+                    echo "JAVA_HOME: ${env.JAVA_HOME}"
                     echo "Maven Version: ${tool('mvn')}"
                     
                     // Establecer umbral de cobertura dinámico
