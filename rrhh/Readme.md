@@ -1,32 +1,19 @@
-\##Gestiones RRHH
+# Evaluación de Desempeño
 
-\# Funcionalidad: Solicitar Vacaciones y Permisos
+Esta funcionalidad permite registrar evaluaciones de desempeño para el personal de la veterinaria.
 
+### Criterios evaluados:
+- Puntualidad
+- Atención al cliente
+- Trabajo en equipo
+- Responsabilidad
 
+### Datos almacenados:
+- Empleado evaluado
+- Fecha de evaluación
+- Calificaciones por criterio
+- Observaciones generales
 
-\## Objetivo
+La calificación final se calcula como promedio de los criterios.
 
-Permitir que el personal de RRHH pueda registrar solicitudes de vacaciones y permisos.
-
-
-
-\## Funcionalidades implementadas
-
-
-
-\- \*\*Opción 6:\*\* Solicitar vacaciones (requiere ID, fecha de inicio y fecha de fin)
-
-\- \*\*Opción 7:\*\* Solicitar permiso (requiere ID, motivo y fecha)
-
-
-
-Las solicitudes se procesan desde consola y se validan según el ID del RRHH.
-
-
-
-\## Autor
-
-\[Junior Lugo]
-
-
-
+Esta rama contiene la implementación inicial de esta funcionalidad.
