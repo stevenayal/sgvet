@@ -27,7 +27,6 @@ public class UsuarioManagerTest {
     public void testUsuarioTableExists() throws Exception {
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO")) {
-            // No exception means table exists
             Assert.assertNotNull(rs);
         }
     }
@@ -37,8 +36,7 @@ public class UsuarioManagerTest {
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO")) {
             boolean hasData = rs.next();
-            Assert.assertTrue("La tabla USUARIO debe tener al menos un registro de prueba.",
-                    hasData);
+            Assert.assertTrue("La tabla USUARIO debe tener al menos un registro de prueba.", hasData);
         }
     }
 }
