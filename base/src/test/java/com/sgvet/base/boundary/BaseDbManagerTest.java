@@ -33,4 +33,18 @@ public class BaseDbManagerTest {
             Assert.assertTrue(rs.next());
         }
     }
+
+    @Test
+    public void testRunScriptWithErrors() throws Exception {
+        BaseDbManager dbManager = BaseDbManager.getInstance();
+        try{
+           dbManager.runSqlScript("");
+            Assert.fail("Error al ejecutar el script de inicialización: ");
+
+        }
+        catch (Exception e) {
+            System.out.println("Controlled error" + e.getMessage());
+        }
+
+    }
 }
