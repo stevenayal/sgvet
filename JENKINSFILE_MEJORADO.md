@@ -78,7 +78,7 @@ pipeline {
         SONARQUBE_ENV = 'sonarqube'
         // JAVA_HOME se establecerá automáticamente o se puede configurar manualmente
         // JAVA_HOME = tool('jdk-11')  // Comentado: requiere JDK configurado por nombre
-        MAVEN_OPTS = '-Xmx2048m -XX:MaxPermSize=512m'
+        MAVEN_OPTS = '-Xmx2048m -XX:MaxMetaspaceSize=512m'
         COVERAGE_THRESHOLD = '80'
         TEST_TIMEOUT = '30'
     }
