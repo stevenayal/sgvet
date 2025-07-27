@@ -38,7 +38,6 @@ public class RRHHController {
         return null; // Si no se encuentra
     }
 
-
     public boolean solicitarVacaciones(int id, String fechaInicio, String fechaFin) {
         RRHH rrhh = buscarRRHH(id);
         if (rrhh != null) {
@@ -63,7 +62,7 @@ public class RRHHController {
         }
         return false;
     }
-    
+
     /**
      * Actualiza los datos personales de un empleado existente
      * @param empleadoActualizado El empleado con los datos actualizados
