@@ -10,6 +10,7 @@ public class RRHHRepository {
     RRHHDbManager rrhhDbManager = RRHHDbManager.getInstance();
 
     public RRHHRepository() {
+        // Constructor por defecto - no requiere inicialización adicional
     }
 
     public List<RRHH> listarTodos() {

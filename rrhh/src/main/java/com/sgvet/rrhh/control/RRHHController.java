@@ -12,7 +12,8 @@ public class RRHHController {
 
     public Boolean crearRRHH(RRHH RRHH) {
         try {
-            // rrhhRepository.insertar(RRHH);
+            // TODO: implementar lógica real de inserción en base de datos
+            rrhhRepository.insertar(RRHH);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
