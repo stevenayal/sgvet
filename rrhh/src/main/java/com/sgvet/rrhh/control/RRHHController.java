@@ -24,8 +24,9 @@ public class RRHHController {
         return rrhhRepository.listarTodos();
     }
 
-    public void eliminarRRHH(int id) {
-        // rrhhRepository.eliminarPorId(id);
+    // Versión final: devuelve boolean, elimina por id
+    public boolean eliminarRRHH(int id) {
+        return rrhhRepository.eliminarPorId(id);
     }
 
     public RRHH buscarRRHH(int id) {
@@ -37,7 +38,6 @@ public class RRHHController {
         }
         return null; // Si no se encuentra
     }
-
 
     public boolean solicitarVacaciones(int id, String fechaInicio, String fechaFin) {
         RRHH rrhh = buscarRRHH(id);
@@ -63,7 +63,7 @@ public class RRHHController {
         }
         return false;
     }
-    
+
     /**
      * Actualiza los datos personales de un empleado existente
      * @param empleadoActualizado El empleado con los datos actualizados

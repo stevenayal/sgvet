@@ -56,36 +56,44 @@ public class RRHHRepository {
             e.printStackTrace();
         }
     }
-    
+
+    public boolean eliminarPorId(int id) {
+        String sql = "DELETE FROM RRHH WHERE ID = ?";
+        try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public RRHH buscarPorId(int id) {
         String sql = "SELECT * FROM RRHH WHERE ID = ?";
-        
         try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            
             if (rs.next()) {
                 return new RRHH(
-                    rs.getInt("ID"),
-                    rs.getString("NOMBRE"),
-                    rs.getString("APELLIDO"),
-                    rs.getString("CEDULA"),
-                    rs.getString("TELEFONO"),
-                    rs.getString("CORREO"),
-                    rs.getString("CARGO"),
-                    rs.getString("ESPECIALIDAD")
+                        rs.getInt("ID"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("APELLIDO"),
+                        rs.getString("CEDULA"),
+                        rs.getString("TELEFONO"),
+                        rs.getString("CORREO"),
+                        rs.getString("CARGO"),
+                        rs.getString("ESPECIALIDAD")
                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return null;
     }
-    
+
     public void actualizar(RRHH rrhh) {
         String sql = "UPDATE RRHH SET NOMBRE=?, APELLIDO=?, CEDULA=?, TELEFONO=?, CORREO=?, CARGO=?, ESPECIALIDAD=? WHERE ID=?";
-
         try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
             ps.setString(1, rrhh.getNombre());
             ps.setString(2, rrhh.getApellido());

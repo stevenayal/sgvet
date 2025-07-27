@@ -10,18 +10,28 @@
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Configuración para SonarQube: ubicación de los tests -->
+        <sonar.tests>src/test/java</sonar.tests>
     </properties>
   <dependencies>
+    <!-- JUnit 4 para pruebas unitarias -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
     </dependency>
-     <dependency>
+    <!-- Derby DB -->
+    <dependency>
         <groupId>org.apache.derby</groupId>
         <artifactId>derby</artifactId>
         <version>10.15.2.0</version>
+    </dependency>
+    <!-- Log4j -->
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.17</version>
     </dependency>
   </dependencies>
   <build>
