@@ -121,8 +121,12 @@ public class RRHHUI {
         System.out.print("Ingrese el ID del RRHH a eliminar: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        rrhhController.eliminarRRHH(id);
-        System.out.println("RRHH eliminado correctamente.");
+        boolean eliminado = rrhhController.eliminarRRHH(id);
+        if (eliminado) {
+            System.out.println("RRHH eliminado correctamente.");
+        } else {
+            System.out.println("No se pudo eliminar el RRHH (puede que no exista o tenga dependencias).");
+        }
     }
 
     private static void buscarRRHH(Scanner scanner) {
