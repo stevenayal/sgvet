@@ -62,7 +62,6 @@ public class RRHHController {
             return true;
         }
         return false;
-        return rrhhRepository.buscarPorId(id);
     }
     
     /**
