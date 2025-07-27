@@ -90,7 +90,18 @@ public class BaseDbManager {
                     sql.append(line);
                     if (line.endsWith(";")) {
                         String command = sql.toString().replace(";", "");
-                        stmt.executeUpdate(command);
+                        try {
+                            stmt.executeUpdate(command);
+                        } catch (SQLException e) {
+                            // Ignorar errores de CREATE TABLE si la tabla ya existe
+                            if (command.trim().toUpperCase().startsWith("CREATE TABLE")) {
+                                logger.info("Tabla ya existe, continuando: " + command);
+                                // No relanzar la excepción para CREATE TABLE
+                            } else {
+                                logger.error("Error ejecutando SQL: " + command, e);
+                                throw e;
+                            }
+                        }
                         sql.setLength(0);
                     }
                 }
