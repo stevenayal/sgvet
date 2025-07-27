@@ -50,14 +50,11 @@ public class BaseDbManager {
         return connection;
     }
 
-    // Ejecuta el script SQL de inicialización
-    public void runSqlScript(String filePath) throws IOException, SQLException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
-             Statement stmt = connection.createStatement()) {
-
+    // Método privado para ejecutar el contenido de un BufferedReader como SQL
+    private void executeSqlFromReader(BufferedReader reader) throws IOException, SQLException {
+        try (Statement stmt = connection.createStatement()) {
             StringBuilder sql = new StringBuilder();
             String line;
-
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty() || line.startsWith("--")) continue;
@@ -71,29 +68,22 @@ public class BaseDbManager {
             }
         }
     }
+
+    // Ejecuta el script SQL de inicialización desde un archivo del sistema
+    public void runSqlScript(String filePath) throws IOException, SQLException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            executeSqlFromReader(reader);
+        }
+    }
+
+    // Ejecuta el script SQL de inicialización desde resources
     public void runSqlScriptFromResources(String resourcePath) throws IOException, SQLException {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (is == null) {
                 throw new IOException("Archivo no encontrado en resources: " + resourcePath);
             }
-
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                 Statement stmt = connection.createStatement()) {
-
-                StringBuilder sql = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    line = line.trim();
-                    if (line.isEmpty() || line.startsWith("--")) continue;
-
-                    sql.append(line);
-                    if (line.endsWith(";")) {
-                        String command = sql.toString().replace(";", "");
-                        stmt.executeUpdate(command);
-                        sql.setLength(0);
-                    }
-                }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                executeSqlFromReader(reader);
             }
         }
     }
