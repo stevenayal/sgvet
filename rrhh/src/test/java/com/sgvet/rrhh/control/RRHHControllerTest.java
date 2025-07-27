@@ -62,16 +62,41 @@ class RRHHControllerTest {
         }
 
         @Test
-        @DisplayName("Debería manejar excepción al crear RRHH")
-        void deberiaManejarExcepcionAlCrearRRHH() {
-            // Arrange
-            RRHH empleadoConError = new RRHH(null, null, null, null, null, null, null, null);
-
+        @DisplayName("Debería retornar false cuando RRHH es null")
+        void deberiaRetornarFalseCuandoRRHHEsNull() {
             // Act
-            Boolean resultado = rrhhController.crearRRHH(empleadoConError);
+            Boolean resultado = rrhhController.crearRRHH(null);
 
             // Assert
-            assertTrue(resultado, "Debería retornar true incluso con datos nulos (implementación actual)");
+            assertFalse(resultado, "Debería retornar false cuando RRHH es null");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando ID es null")
+        void deberiaRetornarFalseCuandoIDEsNull() {
+            // Arrange
+            RRHH empleadoConIDNull = new RRHH(null, "Juan", "Pérez", "12345678", 
+                                             "555-1234", "juan.perez@email.com", 
+                                             "Veterinario", "Cirugía");
+
+            // Act
+            Boolean resultado = rrhhController.crearRRHH(empleadoConIDNull);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando ID es null");
+        }
+
+        @Test
+        @DisplayName("Debería retornar false cuando datos son inválidos")
+        void deberiaRetornarFalseCuandoDatosSonInvalidos() {
+            // Arrange
+            RRHH empleadoInvalido = new RRHH(4, "", "", "", "", "", "", "");
+
+            // Act
+            Boolean resultado = rrhhController.crearRRHH(empleadoInvalido);
+
+            // Assert
+            assertFalse(resultado, "Debería retornar false cuando los datos son inválidos");
         }
     }
 
@@ -294,8 +319,10 @@ class RRHHControllerTest {
             RRHH empleadoActualizado = new RRHH(1, "Juan Carlos", "Pérez", "12345678", 
                                                "555-1234", "juan.carlos@email.com", 
                                                "Veterinario Senior", "Cirugía");
-            doReturn(empleadoValido).when(rrhhController).buscarRRHH(1);
-
+            
+            // Crear el empleado en la base de datos primero
+            rrhhController.crearRRHH(empleadoValido);
+            
             // Act
             boolean resultado = rrhhController.actualizarEmpleado(empleadoActualizado);
 

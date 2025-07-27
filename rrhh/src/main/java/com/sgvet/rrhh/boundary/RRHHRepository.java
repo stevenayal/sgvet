@@ -34,13 +34,20 @@ public class RRHHRepository {
                 rrhhes.add(c);
             }
         } catch (SQLException e) {
+            System.err.println("Error al listar RRHH: " + e.getMessage());
             e.printStackTrace();
         }
 
         return rrhhes;
     }
 
-    public void insertar(RRHH rrhh) {
+    public boolean insertar(RRHH rrhh) {
+        // Validar que el ID no sea null
+        if (rrhh == null || rrhh.getId() == null) {
+            System.err.println("Error: No se puede insertar un RRHH con ID null");
+            return false;
+        }
+
         String sql = "INSERT INTO RRHH (ID, NOMBRE, APELLIDO, CEDULA, TELEFONO, CORREO, CARGO, ESPECIALIDAD) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
@@ -53,8 +60,15 @@ public class RRHHRepository {
             ps.setString(7, rrhh.getCargo());
             ps.setString(8, rrhh.getEspecialidad());
             ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
+            if (e.getSQLState().equals("23505")) {
+                System.err.println("Error: Ya existe un RRHH con el ID " + rrhh.getId());
+            } else {
+                System.err.println("Error al insertar RRHH: " + e.getMessage());
+            }
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -65,6 +79,7 @@ public class RRHHRepository {
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
         } catch (SQLException e) {
+            System.err.println("Error al eliminar RRHH con ID " + id + ": " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -88,12 +103,18 @@ public class RRHHRepository {
                 );
             }
         } catch (SQLException e) {
+            System.err.println("Error al buscar RRHH con ID " + id + ": " + e.getMessage());
             e.printStackTrace();
         }
         return null;
     }
 
-    public void actualizar(RRHH rrhh) {
+    public boolean actualizar(RRHH rrhh) {
+        if (rrhh == null || rrhh.getId() == null) {
+            System.err.println("Error: No se puede actualizar un RRHH con ID null");
+            return false;
+        }
+
         String sql = "UPDATE RRHH SET NOMBRE=?, APELLIDO=?, CEDULA=?, TELEFONO=?, CORREO=?, CARGO=?, ESPECIALIDAD=? WHERE ID=?";
         try (PreparedStatement ps = RRHHDbManager.getConnection().prepareStatement(sql)) {
             ps.setString(1, rrhh.getNombre());
@@ -104,9 +125,45 @@ public class RRHHRepository {
             ps.setString(6, rrhh.getCargo());
             ps.setString(7, rrhh.getEspecialidad());
             ps.setInt(8, rrhh.getId());
-            ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
+            System.err.println("Error al actualizar RRHH con ID " + rrhh.getId() + ": " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Limpia todos los registros de la tabla RRHH (útil para tests)
+     */
+    public boolean limpiarTabla() {
+        String sql = "DELETE FROM RRHH";
+        try (Statement stmt = RRHHDbManager.getConnection().createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error al limpiar tabla RRHH: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Obtiene el siguiente ID disponible para inserción
+     */
+    public int obtenerSiguienteId() {
+        String sql = "SELECT MAX(ID) FROM RRHH";
+        try (Statement stmt = RRHHDbManager.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1);
+                return maxId + 1;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener siguiente ID: " + e.getMessage());
             e.printStackTrace();
         }
+        return 1; // Si no hay registros, empezar con 1
     }
 }

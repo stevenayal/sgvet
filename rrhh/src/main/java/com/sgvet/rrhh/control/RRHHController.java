@@ -12,10 +12,26 @@ public class RRHHController {
 
     public Boolean crearRRHH(RRHH RRHH) {
         try {
-            // TODO: implementar lógica real de inserción en base de datos
-            rrhhRepository.insertar(RRHH);
-            return true;
+            // Validar que el RRHH no sea null y tenga ID válido
+            if (RRHH == null || RRHH.getId() == null) {
+                System.err.println("Error: No se puede crear un RRHH con ID null");
+                return false;
+            }
+
+            // Validar que los datos del empleado sean válidos
+            if (!RRHHValidador.validarEmpleado(RRHH)) {
+                System.err.println("Error: Los datos del empleado no son válidos");
+                return false;
+            }
+
+            // Intentar insertar en la base de datos
+            boolean resultado = rrhhRepository.insertar(RRHH);
+            if (resultado) {
+                System.out.println("RRHH creado exitosamente: " + RRHH.getNombre() + " " + RRHH.getApellido());
+            }
+            return resultado;
         } catch (Exception e) {
+            System.err.println("Error al crear RRHH: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -92,10 +108,11 @@ public class RRHHController {
             }
             
             // Actualizar en la base de datos
-            rrhhRepository.actualizar(empleadoActualizado);
-            
-            System.out.println("Empleado actualizado exitosamente: " + empleadoActualizado.getNombre() + " " + empleadoActualizado.getApellido());
-            return true;
+            boolean resultado = rrhhRepository.actualizar(empleadoActualizado);
+            if (resultado) {
+                System.out.println("Empleado actualizado exitosamente: " + empleadoActualizado.getNombre() + " " + empleadoActualizado.getApellido());
+            }
+            return resultado;
             
         } catch (Exception e) {
             System.out.println("Error al actualizar empleado: " + e.getMessage());
