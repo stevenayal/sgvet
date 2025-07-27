@@ -1,4 +1,4 @@
-# Eliminar Empleado - Módulo RRHH
+# Funcionalidad 'Eliminar Empleado' - Módulo RRHH
 
 Esta funcionalidad permite eliminar (dar de baja) a un empleado del sistema de gestión veterinaria.
 
