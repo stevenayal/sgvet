@@ -8,10 +8,11 @@ import java.util.Scanner;
 public class RRHHUI {
 
     static RRHHController rrhhController = new RRHHController();
+
     public static void main(String[] args) {
         menuRRHHes();
     }
-    
+
     public static void menuRRHHes() {
         Scanner scanner = new Scanner(System.in);
         int opcion = -1;
@@ -23,8 +24,10 @@ public class RRHHUI {
             System.out.println("3. Eliminar RRHH");
             System.out.println("4. Buscar RRHH");
             System.out.println("5. Actualizar datos del empleado");
+            System.out.println("6. Solicitar Vacaciones");
+            System.out.println("7. Solicitar Permiso");
             System.out.println("0. Volver al menu principal");
-            System.out.print("Seleccione una opcion (0-5): ");
+            System.out.print("Seleccione una opcion (0-7): ");
 
             if (scanner.hasNextInt()) {
                 opcion = scanner.nextInt();
@@ -45,6 +48,12 @@ public class RRHHUI {
                     case 5:
                         actualizarEmpleado(scanner);
                         break;
+                    case 6:
+                        solicitarVacaciones(scanner);
+                        break;
+                    case 7:
+                        solicitarPermiso(scanner);           
+                        break;
                     case 0:
                         System.out.println("Volviendo al menu principal...");
                         break;
@@ -56,7 +65,6 @@ public class RRHHUI {
                 scanner.next(); // Limpiar entrada inválida
             }
         }
-        // scanner.close(); // No cerrar aquí si se comparte el scanner globalmente
     }
 
     private static void crearRRHH(Scanner scanner) {
@@ -125,6 +133,41 @@ public class RRHHUI {
             System.out.println("RRHH no encontrado.");
         }
     }
+
+    private static void solicitarVacaciones(Scanner scanner) {
+        System.out.print("Ingrese el ID del RRHH que solicita vacaciones: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Fecha de inicio (yyyy-mm-dd): ");
+        String fechaInicio = scanner.nextLine();
+        System.out.print("Fecha de fin (yyyy-mm-dd): ");
+        String fechaFin = scanner.nextLine();
+
+        boolean exito = rrhhController.solicitarVacaciones(id, fechaInicio, fechaFin);
+        if (exito) {
+            System.out.println("Vacaciones solicitadas correctamente.");
+        } else {
+            System.out.println("No se pudo solicitar las vacaciones. Verifique el ID.");
+        }
+    }
+
+    private static void solicitarPermiso(Scanner scanner) {
+        System.out.print("Ingrese el ID del RRHH que solicita permiso: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Motivo del permiso: ");
+        String motivo = scanner.nextLine();
+        System.out.print("Fecha del permiso (yyyy-mm-dd): ");
+        String fecha = scanner.nextLine();
+
+        boolean exito = rrhhController.solicitarPermiso(id, motivo, fecha);
+        if (exito) {
+            System.out.println("Permiso solicitado correctamente.");
+        } else {
+            System.out.println("No se pudo solicitar el permiso. Verifique el ID.");
+        }
+    }
+}
     
     private static void actualizarEmpleado(Scanner scanner) {
         System.out.println("\n--- Actualizar Datos del Empleado ---");
