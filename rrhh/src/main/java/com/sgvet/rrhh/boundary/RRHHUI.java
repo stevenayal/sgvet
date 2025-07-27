@@ -22,8 +22,9 @@ public class RRHHUI {
             System.out.println("2. Listar RRHHs");
             System.out.println("3. Eliminar RRHH");
             System.out.println("4. Buscar RRHH");
+            System.out.println("5. Actualizar datos del empleado");
             System.out.println("0. Volver al menu principal");
-            System.out.print("Seleccione una opcion (0-4): ");
+            System.out.print("Seleccione una opcion (0-5): ");
 
             if (scanner.hasNextInt()) {
                 opcion = scanner.nextInt();
@@ -40,6 +41,9 @@ public class RRHHUI {
                         break;
                     case 4:
                         buscarRRHH(scanner);
+                        break;
+                    case 5:
+                        actualizarEmpleado(scanner);
                         break;
                     case 0:
                         System.out.println("Volviendo al menu principal...");
@@ -119,6 +123,90 @@ public class RRHHUI {
             System.out.println("Especialidad: " + rrhh.getEspecialidad());
         } else {
             System.out.println("RRHH no encontrado.");
+        }
+    }
+    
+    private static void actualizarEmpleado(Scanner scanner) {
+        System.out.println("\n--- Actualizar Datos del Empleado ---");
+        
+        // Solicitar ID del empleado a actualizar
+        System.out.print("Ingrese el ID del empleado a actualizar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpiar buffer
+        
+        // Buscar el empleado existente
+        RRHH empleadoExistente = rrhhController.buscarRRHH(id);
+        if (empleadoExistente == null) {
+            System.out.println("Error: No se encontró el empleado con ID " + id);
+            return;
+        }
+        
+        // Mostrar datos actuales
+        System.out.println("\nDatos actuales del empleado:");
+        System.out.println("Nombre: " + empleadoExistente.getNombre());
+        System.out.println("Apellido: " + empleadoExistente.getApellido());
+        System.out.println("Cédula: " + empleadoExistente.getCedula());
+        System.out.println("Teléfono: " + empleadoExistente.getTelefono());
+        System.out.println("Correo: " + empleadoExistente.getCorreo());
+        System.out.println("Cargo: " + empleadoExistente.getCargo());
+        System.out.println("Especialidad: " + empleadoExistente.getEspecialidad());
+        
+        System.out.println("\nIngrese los nuevos datos (deje vacío para mantener el valor actual):");
+        
+        // Solicitar nuevos datos
+        System.out.print("Nuevo nombre [" + empleadoExistente.getNombre() + "]: ");
+        String nuevoNombre = scanner.nextLine();
+        if (nuevoNombre.trim().isEmpty()) {
+            nuevoNombre = empleadoExistente.getNombre();
+        }
+        
+        System.out.print("Nuevo apellido [" + empleadoExistente.getApellido() + "]: ");
+        String nuevoApellido = scanner.nextLine();
+        if (nuevoApellido.trim().isEmpty()) {
+            nuevoApellido = empleadoExistente.getApellido();
+        }
+        
+        System.out.print("Nueva cédula [" + empleadoExistente.getCedula() + "]: ");
+        String nuevaCedula = scanner.nextLine();
+        if (nuevaCedula.trim().isEmpty()) {
+            nuevaCedula = empleadoExistente.getCedula();
+        }
+        
+        System.out.print("Nuevo teléfono [" + empleadoExistente.getTelefono() + "]: ");
+        String nuevoTelefono = scanner.nextLine();
+        if (nuevoTelefono.trim().isEmpty()) {
+            nuevoTelefono = empleadoExistente.getTelefono();
+        }
+        
+        System.out.print("Nuevo correo [" + empleadoExistente.getCorreo() + "]: ");
+        String nuevoCorreo = scanner.nextLine();
+        if (nuevoCorreo.trim().isEmpty()) {
+            nuevoCorreo = empleadoExistente.getCorreo();
+        }
+        
+        System.out.print("Nuevo cargo [" + empleadoExistente.getCargo() + "]: ");
+        String nuevoCargo = scanner.nextLine();
+        if (nuevoCargo.trim().isEmpty()) {
+            nuevoCargo = empleadoExistente.getCargo();
+        }
+        
+        System.out.print("Nueva especialidad [" + empleadoExistente.getEspecialidad() + "]: ");
+        String nuevaEspecialidad = scanner.nextLine();
+        if (nuevaEspecialidad.trim().isEmpty()) {
+            nuevaEspecialidad = empleadoExistente.getEspecialidad();
+        }
+        
+        // Crear objeto con datos actualizados
+        RRHH empleadoActualizado = new RRHH(id, nuevoNombre, nuevoApellido, nuevaCedula, 
+                                           nuevoTelefono, nuevoCorreo, nuevoCargo, nuevaEspecialidad);
+        
+        // Intentar actualizar
+        boolean resultado = rrhhController.actualizarEmpleado(empleadoActualizado);
+        
+        if (resultado) {
+            System.out.println("Empleado actualizado exitosamente.");
+        } else {
+            System.out.println("Error al actualizar el empleado.");
         }
     }
 }
