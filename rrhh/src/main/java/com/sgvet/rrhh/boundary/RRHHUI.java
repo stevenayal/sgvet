@@ -1,6 +1,9 @@
 package com.sgvet.rrhh.boundary;
+
 import com.sgvet.rrhh.control.RRHHController;
+import com.sgvet.rrhh.control.EvaluacionDesempenoController;
 import com.sgvet.rrhh.entity.RRHH;
+import com.sgvet.rrhh.entity.EvaluacionDesempeno;
 
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +11,7 @@ import java.util.Scanner;
 public class RRHHUI {
 
     static RRHHController rrhhController = new RRHHController();
+    static EvaluacionDesempenoController evaluacionController = new EvaluacionDesempenoController();
 
     public static void main(String[] args) {
         menuRRHHes();
@@ -26,8 +30,9 @@ public class RRHHUI {
             System.out.println("5. Actualizar datos del empleado");
             System.out.println("6. Solicitar Vacaciones");
             System.out.println("7. Solicitar Permiso");
+            System.out.println("8. Evaluaciones de Desempeño");
             System.out.println("0. Volver al menu principal");
-            System.out.print("Seleccione una opcion (0-7): ");
+            System.out.print("Seleccione una opcion (0-8): ");
 
             if (scanner.hasNextInt()) {
                 opcion = scanner.nextInt();
@@ -52,7 +57,10 @@ public class RRHHUI {
                         solicitarVacaciones(scanner);
                         break;
                     case 7:
-                        solicitarPermiso(scanner);           
+                        solicitarPermiso(scanner);
+                        break;
+                    case 8:
+                        menuEvaluaciones(scanner);
                         break;
                     case 0:
                         System.out.println("Volviendo al menu principal...");
@@ -66,6 +74,8 @@ public class RRHHUI {
             }
         }
     }
+
+    // Métodos de RRHH...
 
     private static void crearRRHH(Scanner scanner) {
         System.out.println("Ingrese los datos del RRHH:");
@@ -134,6 +144,80 @@ public class RRHHUI {
         }
     }
 
+    private static void actualizarEmpleado(Scanner scanner) {
+        System.out.println("\n--- Actualizar Datos del Empleado ---");
+        System.out.print("Ingrese el ID del empleado a actualizar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        RRHH empleadoExistente = rrhhController.buscarRRHH(id);
+        if (empleadoExistente == null) {
+            System.out.println("Error: No se encontró el empleado con ID " + id);
+            return;
+        }
+        System.out.println("\nDatos actuales del empleado:");
+        System.out.println("Nombre: " + empleadoExistente.getNombre());
+        System.out.println("Apellido: " + empleadoExistente.getApellido());
+        System.out.println("Cédula: " + empleadoExistente.getCedula());
+        System.out.println("Teléfono: " + empleadoExistente.getTelefono());
+        System.out.println("Correo: " + empleadoExistente.getCorreo());
+        System.out.println("Cargo: " + empleadoExistente.getCargo());
+        System.out.println("Especialidad: " + empleadoExistente.getEspecialidad());
+        System.out.println("\nIngrese los nuevos datos (deje vacío para mantener el valor actual):");
+
+        System.out.print("Nuevo nombre [" + empleadoExistente.getNombre() + "]: ");
+        String nuevoNombre = scanner.nextLine();
+        if (nuevoNombre.trim().isEmpty()) {
+            nuevoNombre = empleadoExistente.getNombre();
+        }
+
+        System.out.print("Nuevo apellido [" + empleadoExistente.getApellido() + "]: ");
+        String nuevoApellido = scanner.nextLine();
+        if (nuevoApellido.trim().isEmpty()) {
+            nuevoApellido = empleadoExistente.getApellido();
+        }
+
+        System.out.print("Nueva cédula [" + empleadoExistente.getCedula() + "]: ");
+        String nuevaCedula = scanner.nextLine();
+        if (nuevaCedula.trim().isEmpty()) {
+            nuevaCedula = empleadoExistente.getCedula();
+        }
+
+        System.out.print("Nuevo teléfono [" + empleadoExistente.getTelefono() + "]: ");
+        String nuevoTelefono = scanner.nextLine();
+        if (nuevoTelefono.trim().isEmpty()) {
+            nuevoTelefono = empleadoExistente.getTelefono();
+        }
+
+        System.out.print("Nuevo correo [" + empleadoExistente.getCorreo() + "]: ");
+        String nuevoCorreo = scanner.nextLine();
+        if (nuevoCorreo.trim().isEmpty()) {
+            nuevoCorreo = empleadoExistente.getCorreo();
+        }
+
+        System.out.print("Nuevo cargo [" + empleadoExistente.getCargo() + "]: ");
+        String nuevoCargo = scanner.nextLine();
+        if (nuevoCargo.trim().isEmpty()) {
+            nuevoCargo = empleadoExistente.getCargo();
+        }
+
+        System.out.print("Nueva especialidad [" + empleadoExistente.getEspecialidad() + "]: ");
+        String nuevaEspecialidad = scanner.nextLine();
+        if (nuevaEspecialidad.trim().isEmpty()) {
+            nuevaEspecialidad = empleadoExistente.getEspecialidad();
+        }
+
+        RRHH empleadoActualizado = new RRHH(id, nuevoNombre, nuevoApellido, nuevaCedula,
+                nuevoTelefono, nuevoCorreo, nuevoCargo, nuevaEspecialidad);
+
+        boolean resultado = rrhhController.actualizarEmpleado(empleadoActualizado);
+
+        if (resultado) {
+            System.out.println("Empleado actualizado exitosamente.");
+        } else {
+            System.out.println("Error al actualizar el empleado.");
+        }
+    }
+
     private static void solicitarVacaciones(Scanner scanner) {
         System.out.print("Ingrese el ID del RRHH que solicita vacaciones: ");
         int id = scanner.nextInt();
@@ -167,89 +251,77 @@ public class RRHHUI {
             System.out.println("No se pudo solicitar el permiso. Verifique el ID.");
         }
     }
-}
-    
-    private static void actualizarEmpleado(Scanner scanner) {
-        System.out.println("\n--- Actualizar Datos del Empleado ---");
-        
-        // Solicitar ID del empleado a actualizar
-        System.out.print("Ingrese el ID del empleado a actualizar: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Limpiar buffer
-        
-        // Buscar el empleado existente
-        RRHH empleadoExistente = rrhhController.buscarRRHH(id);
-        if (empleadoExistente == null) {
-            System.out.println("Error: No se encontró el empleado con ID " + id);
-            return;
+
+    // Evaluaciones de desempeño
+
+    private static void menuEvaluaciones(Scanner scanner) {
+        int opcionEval = -1;
+
+        while (opcionEval != 0) {
+            System.out.println("\n--- Menú Evaluaciones ---");
+            System.out.println("1. Registrar evaluación");
+            System.out.println("2. Listar evaluaciones por empleado");
+            System.out.println("0. Volver");
+            System.out.print("Seleccione una opción: ");
+            opcionEval = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcionEval) {
+                case 1:
+                    registrarEvaluacion(scanner);
+                    break;
+                case 2:
+                    listarEvaluaciones(scanner);
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
         }
-        
-        // Mostrar datos actuales
-        System.out.println("\nDatos actuales del empleado:");
-        System.out.println("Nombre: " + empleadoExistente.getNombre());
-        System.out.println("Apellido: " + empleadoExistente.getApellido());
-        System.out.println("Cédula: " + empleadoExistente.getCedula());
-        System.out.println("Teléfono: " + empleadoExistente.getTelefono());
-        System.out.println("Correo: " + empleadoExistente.getCorreo());
-        System.out.println("Cargo: " + empleadoExistente.getCargo());
-        System.out.println("Especialidad: " + empleadoExistente.getEspecialidad());
-        
-        System.out.println("\nIngrese los nuevos datos (deje vacío para mantener el valor actual):");
-        
-        // Solicitar nuevos datos
-        System.out.print("Nuevo nombre [" + empleadoExistente.getNombre() + "]: ");
-        String nuevoNombre = scanner.nextLine();
-        if (nuevoNombre.trim().isEmpty()) {
-            nuevoNombre = empleadoExistente.getNombre();
-        }
-        
-        System.out.print("Nuevo apellido [" + empleadoExistente.getApellido() + "]: ");
-        String nuevoApellido = scanner.nextLine();
-        if (nuevoApellido.trim().isEmpty()) {
-            nuevoApellido = empleadoExistente.getApellido();
-        }
-        
-        System.out.print("Nueva cédula [" + empleadoExistente.getCedula() + "]: ");
-        String nuevaCedula = scanner.nextLine();
-        if (nuevaCedula.trim().isEmpty()) {
-            nuevaCedula = empleadoExistente.getCedula();
-        }
-        
-        System.out.print("Nuevo teléfono [" + empleadoExistente.getTelefono() + "]: ");
-        String nuevoTelefono = scanner.nextLine();
-        if (nuevoTelefono.trim().isEmpty()) {
-            nuevoTelefono = empleadoExistente.getTelefono();
-        }
-        
-        System.out.print("Nuevo correo [" + empleadoExistente.getCorreo() + "]: ");
-        String nuevoCorreo = scanner.nextLine();
-        if (nuevoCorreo.trim().isEmpty()) {
-            nuevoCorreo = empleadoExistente.getCorreo();
-        }
-        
-        System.out.print("Nuevo cargo [" + empleadoExistente.getCargo() + "]: ");
-        String nuevoCargo = scanner.nextLine();
-        if (nuevoCargo.trim().isEmpty()) {
-            nuevoCargo = empleadoExistente.getCargo();
-        }
-        
-        System.out.print("Nueva especialidad [" + empleadoExistente.getEspecialidad() + "]: ");
-        String nuevaEspecialidad = scanner.nextLine();
-        if (nuevaEspecialidad.trim().isEmpty()) {
-            nuevaEspecialidad = empleadoExistente.getEspecialidad();
-        }
-        
-        // Crear objeto con datos actualizados
-        RRHH empleadoActualizado = new RRHH(id, nuevoNombre, nuevoApellido, nuevaCedula, 
-                                           nuevoTelefono, nuevoCorreo, nuevoCargo, nuevaEspecialidad);
-        
-        // Intentar actualizar
-        boolean resultado = rrhhController.actualizarEmpleado(empleadoActualizado);
-        
-        if (resultado) {
-            System.out.println("Empleado actualizado exitosamente.");
+    }
+
+    private static void registrarEvaluacion(Scanner scanner) {
+        System.out.print("ID del empleado: ");
+        int idEmpleado = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Fecha (YYYY-MM-DD): ");
+        String fecha = scanner.nextLine();
+        System.out.print("Puntualidad (1-10): ");
+        int puntualidad = scanner.nextInt();
+        System.out.print("Atención al cliente (1-10): ");
+        int atencion = scanner.nextInt();
+        System.out.print("Trabajo en equipo (1-10): ");
+        int trabajo = scanner.nextInt();
+        System.out.print("Responsabilidad (1-10): ");
+        int responsabilidad = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Observaciones: ");
+        String obs = scanner.nextLine();
+
+        EvaluacionDesempeno eval = new EvaluacionDesempeno(
+                idEmpleado, fecha, puntualidad, atencion, trabajo, responsabilidad, obs
+        );
+        evaluacionController.registrarEvaluacion(eval);
+        System.out.println("✅ Evaluación registrada.");
+    }
+
+    private static void listarEvaluaciones(Scanner scanner) {
+        System.out.print("ID del empleado: ");
+        int idEmpleado = scanner.nextInt();
+        scanner.nextLine();
+        List<EvaluacionDesempeno> lista = evaluacionController.obtenerPorEmpleado(idEmpleado);
+
+        if (lista.isEmpty()) {
+            System.out.println("No se encontraron evaluaciones.");
         } else {
-            System.out.println("Error al actualizar el empleado.");
+            for (EvaluacionDesempeno e : lista) {
+                System.out.println("Fecha: " + e.getFecha());
+                System.out.println("Promedio: " + e.getCalificacionFinal());
+                System.out.println("Observaciones: " + e.getObservaciones());
+                System.out.println("----------------------------------");
+            }
         }
     }
 }
