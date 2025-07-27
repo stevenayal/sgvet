@@ -7,3 +7,4 @@ base/target/*
 mascota/target/
 mascota/target/*
 .git/
+docker-desktop-installer.exe

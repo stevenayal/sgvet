@@ -24,6 +24,9 @@ pipeline {
                 dir('mascota') { // Cambia 'base' por el nombre de tu carpeta
                     sh 'mvn clean install'
                 }
+                dir('rrhh') {
+                    sh 'mvn clean install'
+                }
             }
         }
          stage('SonarQube Analysis') {
@@ -31,6 +34,11 @@ pipeline {
                 dir('base') {
                     withSonarQubeEnv("${SONARQUBE_ENV}") {
                         sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Base'
+                    }
+                }
+                dir('rrhh') {
+                    withSonarQubeEnv("${SONARQUBE_ENV}") {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet-rrhh -Dsonar.projectName=SgVet-RRHH'
                     }
                 }
             }
