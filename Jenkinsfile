@@ -287,7 +287,7 @@ pipeline {
                             for module in base cliente proveedor mascota rrhh; do
                                 if [ -d "$module/target/surefire-reports" ]; then
                                     echo "=== MÓDULO $module ===" >> test-summary.txt
-                                    find "$module/target/surefire-reports" -name "*.txt" -exec cat {} \; >> test-summary.txt
+                                    find "$module/target/surefire-reports" -name "*.txt" -exec cat {} \\; >> test-summary.txt
                                     echo "" >> test-summary.txt
                                 fi
                             done
@@ -367,7 +367,7 @@ pipeline {
                                                 -Dsonar.host.url=http://sonarqube:9000 \
                                                 -Dsonar.projectKey=sgVet-${module} \
                                                 -Dsonar.projectName=SgVet-${module.capitalize()} \
-                                                -Dsonar.projectVersion=\${BUILD_NUMBER} \
+                                                -Dsonar.projectVersion=${BUILD_NUMBER} \
                                                 -Dsonar.sources=src/main/java \
                                                 -Dsonar.tests=src/test/java \
                                                 -Dsonar.java.binaries=target/classes \
