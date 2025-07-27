@@ -58,8 +58,8 @@ public class RRHHValidador {
             return true; // El teléfono es opcional
         }
         
-        // Validación básica de formato de teléfono (solo números)
-        return telefono.matches("^[0-9]{7,15}$");
+        // Validación más flexible de formato de teléfono (permite guiones)
+        return telefono.matches("^[0-9-]{7,15}$");
     }
     
     /**
@@ -72,8 +72,8 @@ public class RRHHValidador {
             return false;
         }
         
-        // Validación básica de formato de cédula (solo números)
-        return cedula.matches("^[0-9]{10}$");
+        // Validación más flexible de formato de cédula (7-10 dígitos)
+        return cedula.matches("^[0-9]{7,10}$");
     }
     
     /**
