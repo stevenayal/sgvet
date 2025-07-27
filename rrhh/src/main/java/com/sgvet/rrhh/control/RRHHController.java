@@ -34,8 +34,7 @@ public class RRHHController {
     }
 
     public RRHH buscarRRHH(int id) {
-        //return rrhhRepository.buscarPorId(id);
-        return null;
+        return rrhhRepository.buscarPorId(id);
     }
     
     /**
@@ -65,7 +64,7 @@ public class RRHHController {
             }
             
             // Actualizar en la base de datos
-            // rrhhRepository.actualizar(empleadoActualizado);
+            rrhhRepository.actualizar(empleadoActualizado);
             
             System.out.println("Empleado actualizado exitosamente: " + empleadoActualizado.getNombre() + " " + empleadoActualizado.getApellido());
             return true;
