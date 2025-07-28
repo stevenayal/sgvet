@@ -99,6 +99,46 @@ pipeline {
             }
         }
         
+        stage('Validación de Estructura del Proyecto') {
+            steps {
+                script {
+                    echo "=== VALIDACIÓN DE ESTRUCTURA DEL PROYECTO ==="
+                    
+                    def modules = ['base', 'cliente', 'proveedor', 'mascota', 'rrhh']
+                    def missingModules = []
+                    def missingPoms = []
+                    
+                    modules.each { module ->
+                        if (!fileExists(module)) {
+                            missingModules.add(module)
+                            echo "❌ Módulo ${module} no encontrado"
+                        } else {
+                            if (!fileExists("${module}/pom.xml")) {
+                                missingPoms.add(module)
+                                echo "❌ pom.xml no encontrado en módulo ${module}"
+                            } else {
+                                echo "✅ Módulo ${module} y su pom.xml encontrados"
+                            }
+                        }
+                    }
+                    
+                    // Mostrar estructura de directorios
+                    echo "=== ESTRUCTURA DEL WORKSPACE ==="
+                    sh 'find . -name "pom.xml" -type f | head -20'
+                    
+                    if (!missingModules.isEmpty()) {
+                        error "❌ ERROR: Módulos faltantes: ${missingModules.join(', ')}"
+                    }
+                    
+                    if (!missingPoms.isEmpty()) {
+                        error "❌ ERROR: pom.xml faltante en módulos: ${missingPoms.join(', ')}"
+                    }
+                    
+                    echo "✅ Todos los módulos y pom.xml encontrados correctamente"
+                }
+            }
+        }
+        
         stage('Análisis de Dependencias') {
             when {
                 expression { params.BUILD_TYPE != 'TEST_ONLY' }
@@ -111,11 +151,17 @@ pipeline {
                     
                     modules.each { module ->
                         if (fileExists(module)) {
-                            dir(module) {
-                                echo "Analizando dependencias de ${module}..."
-                                sh 'mvn dependency:tree -DoutputFile=dependency-tree.txt'
-                                archiveArtifacts artifacts: "${module}/dependency-tree.txt", fingerprint: true
+                            if (fileExists("${module}/pom.xml")) {
+                                dir(module) {
+                                    echo "Analizando dependencias de ${module}..."
+                                    sh 'mvn dependency:tree -DoutputFile=dependency-tree.txt'
+                                    archiveArtifacts artifacts: "${module}/dependency-tree.txt", fingerprint: true
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró pom.xml en el módulo ${module}"
                             }
+                        } else {
+                            echo "⚠️ ADVERTENCIA: El módulo ${module} no existe en el workspace"
                         }
                     }
                 }
@@ -129,11 +175,15 @@ pipeline {
             parallel {
                 stage('Compilar Base') {
                     steps {
-                        dir('base') {
-                            script {
-                                echo "=== COMPILANDO MÓDULO BASE ==="
-                                sh 'mvn clean compile -q'
-                                echo "✅ Compilación de Base completada"
+                        script {
+                            if (fileExists('base') && fileExists('base/pom.xml')) {
+                                dir('base') {
+                                    echo "=== COMPILANDO MÓDULO BASE ==="
+                                    sh 'mvn clean compile -q'
+                                    echo "✅ Compilación de Base completada"
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo base o su pom.xml"
                             }
                         }
                     }
@@ -141,11 +191,15 @@ pipeline {
                 
                 stage('Compilar Cliente') {
                     steps {
-                        dir('cliente') {
-                            script {
-                                echo "=== COMPILANDO MÓDULO CLIENTE ==="
-                                sh 'mvn clean compile -q'
-                                echo "✅ Compilación de Cliente completada"
+                        script {
+                            if (fileExists('cliente') && fileExists('cliente/pom.xml')) {
+                                dir('cliente') {
+                                    echo "=== COMPILANDO MÓDULO CLIENTE ==="
+                                    sh 'mvn clean compile -q'
+                                    echo "✅ Compilación de Cliente completada"
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo cliente o su pom.xml"
                             }
                         }
                     }
@@ -153,11 +207,15 @@ pipeline {
                 
                 stage('Compilar Proveedor') {
                     steps {
-                        dir('proveedor') {
-                            script {
-                                echo "=== COMPILANDO MÓDULO PROVEEDOR ==="
-                                sh 'mvn clean compile -q'
-                                echo "✅ Compilación de Proveedor completada"
+                        script {
+                            if (fileExists('proveedor') && fileExists('proveedor/pom.xml')) {
+                                dir('proveedor') {
+                                    echo "=== COMPILANDO MÓDULO PROVEEDOR ==="
+                                    sh 'mvn clean compile -q'
+                                    echo "✅ Compilación de Proveedor completada"
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo proveedor o su pom.xml"
                             }
                         }
                     }
@@ -165,11 +223,15 @@ pipeline {
                 
                 stage('Compilar Mascota') {
                     steps {
-                        dir('mascota') {
-                            script {
-                                echo "=== COMPILANDO MÓDULO MASCOTA ==="
-                                sh 'mvn clean compile -q'
-                                echo "✅ Compilación de Mascota completada"
+                        script {
+                            if (fileExists('mascota') && fileExists('mascota/pom.xml')) {
+                                dir('mascota') {
+                                    echo "=== COMPILANDO MÓDULO MASCOTA ==="
+                                    sh 'mvn clean compile -q'
+                                    echo "✅ Compilación de Mascota completada"
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo mascota o su pom.xml"
                             }
                         }
                     }
@@ -177,11 +239,15 @@ pipeline {
                 
                 stage('Compilar RRHH') {
                     steps {
-                        dir('rrhh') {
-                            script {
-                                echo "=== COMPILANDO MÓDULO RRHH ==="
-                                sh 'mvn clean compile -q'
-                                echo "✅ Compilación de RRHH completada"
+                        script {
+                            if (fileExists('rrhh') && fileExists('rrhh/pom.xml')) {
+                                dir('rrhh') {
+                                    echo "=== COMPILANDO MÓDULO RRHH ==="
+                                    sh 'mvn clean compile -q'
+                                    echo "✅ Compilación de RRHH completada"
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo rrhh o su pom.xml"
                             }
                         }
                     }
@@ -196,19 +262,23 @@ pipeline {
             parallel {
                 stage('Pruebas Base') {
                     steps {
-                        dir('base') {
-                            script {
-                                echo "=== EJECUTANDO PRUEBAS UNITARIAS - BASE ==="
-                                sh 'mvn test -Dmaven.test.failure.ignore=true'
-                                
-                                // Publicar resultados de pruebas
-                                publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
-                                
-                                // Generar reporte de cobertura si está disponible
-                                if (fileExists('target/site/jacoco')) {
-                                    publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], 
-                                                   sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                        script {
+                            if (fileExists('base') && fileExists('base/pom.xml')) {
+                                dir('base') {
+                                    echo "=== EJECUTANDO PRUEBAS UNITARIAS - BASE ==="
+                                    sh 'mvn test -Dmaven.test.failure.ignore=true'
+                                    
+                                    // Publicar resultados de pruebas
+                                    publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                                    
+                                    // Generar reporte de cobertura si está disponible
+                                    if (fileExists('target/site/jacoco')) {
+                                        publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], 
+                                                       sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                                    }
                                 }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo base o su pom.xml"
                             }
                         }
                     }
@@ -216,11 +286,15 @@ pipeline {
                 
                 stage('Pruebas Cliente') {
                     steps {
-                        dir('cliente') {
-                            script {
-                                echo "=== EJECUTANDO PRUEBAS UNITARIAS - CLIENTE ==="
-                                sh 'mvn test -Dmaven.test.failure.ignore=true'
-                                publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                        script {
+                            if (fileExists('cliente') && fileExists('cliente/pom.xml')) {
+                                dir('cliente') {
+                                    echo "=== EJECUTANDO PRUEBAS UNITARIAS - CLIENTE ==="
+                                    sh 'mvn test -Dmaven.test.failure.ignore=true'
+                                    publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo cliente o su pom.xml"
                             }
                         }
                     }
@@ -228,11 +302,15 @@ pipeline {
                 
                 stage('Pruebas Proveedor') {
                     steps {
-                        dir('proveedor') {
-                            script {
-                                echo "=== EJECUTANDO PRUEBAS UNITARIAS - PROVEEDOR ==="
-                                sh 'mvn test -Dmaven.test.failure.ignore=true'
-                                publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                        script {
+                            if (fileExists('proveedor') && fileExists('proveedor/pom.xml')) {
+                                dir('proveedor') {
+                                    echo "=== EJECUTANDO PRUEBAS UNITARIAS - PROVEEDOR ==="
+                                    sh 'mvn test -Dmaven.test.failure.ignore=true'
+                                    publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo proveedor o su pom.xml"
                             }
                         }
                     }
@@ -240,11 +318,15 @@ pipeline {
                 
                 stage('Pruebas Mascota') {
                     steps {
-                        dir('mascota') {
-                            script {
-                                echo "=== EJECUTANDO PRUEBAS UNITARIAS - MASCOTA ==="
-                                sh 'mvn test -Dmaven.test.failure.ignore=true'
-                                publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                        script {
+                            if (fileExists('mascota') && fileExists('mascota/pom.xml')) {
+                                dir('mascota') {
+                                    echo "=== EJECUTANDO PRUEBAS UNITARIAS - MASCOTA ==="
+                                    sh 'mvn test -Dmaven.test.failure.ignore=true'
+                                    publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                                }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo mascota o su pom.xml"
                             }
                         }
                     }
@@ -252,48 +334,52 @@ pipeline {
                 
                 stage('Pruebas RRHH') {
                     steps {
-                        dir('rrhh') {
-                            script {
-                                echo "=== EJECUTANDO PRUEBAS UNITARIAS - RRHH ==="
-                                
-                                // Ejecutar pruebas con timeout y configuración específica
-                                timeout(time: 10, unit: 'MINUTES') {
-                                    sh '''
-                                        mvn test \
-                                        -Dmaven.test.failure.ignore=true \
-                                        -Dtest=RRHHControllerTest,RRHHRepositoryTest,RRHHValidadorTest,EvaluacionDesempenoControllerTest,EvaluacionDesempenoTest \
-                                        -Dsurefire.useFile=false \
-                                        -Dmaven.test.redirectTestOutputToFile=false
-                                    '''
-                                }
-                                
-                                // Publicar resultados de pruebas
-                                publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
-                                
-                                // Generar reporte de cobertura
-                                sh 'mvn jacoco:report'
-                                
-                                // Publicar cobertura de código
-                                publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], 
-                                               sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
-                                
-                                // Verificar umbral de cobertura
-                                script {
-                                    def coverageFile = readFile('target/site/jacoco/jacoco.xml')
-                                    def coverage = new XmlSlurper().parseText(coverageFile)
-                                    def lineCoverage = coverage.counter.find { it.@type == 'LINE' }.@covered.toInteger()
-                                    def totalLines = coverage.counter.find { it.@type == 'LINE' }.@covered.toInteger() + 
-                                                   coverage.counter.find { it.@type == 'LINE' }.@missed.toInteger()
-                                    def coveragePercentage = (lineCoverage / totalLines * 100).round(2)
+                        script {
+                            if (fileExists('rrhh') && fileExists('rrhh/pom.xml')) {
+                                dir('rrhh') {
+                                    echo "=== EJECUTANDO PRUEBAS UNITARIAS - RRHH ==="
                                     
-                                    echo "📊 Cobertura de código RRHH: ${coveragePercentage}%"
+                                    // Ejecutar pruebas con timeout y configuración específica
+                                    timeout(time: 10, unit: 'MINUTES') {
+                                        sh '''
+                                            mvn test \
+                                            -Dmaven.test.failure.ignore=true \
+                                            -Dtest=RRHHControllerTest,RRHHRepositoryTest,RRHHValidadorTest,EvaluacionDesempenoControllerTest,EvaluacionDesempenoTest \
+                                            -Dsurefire.useFile=false \
+                                            -Dmaven.test.redirectTestOutputToFile=false
+                                        '''
+                                    }
                                     
-                                    if (coveragePercentage < env.COVERAGE_THRESHOLD.toInteger()) {
-                                        error "❌ Cobertura de código (${coveragePercentage}%) está por debajo del umbral mínimo (${env.COVERAGE_THRESHOLD}%)"
-                                    } else {
-                                        echo "✅ Cobertura de código cumple con el umbral mínimo"
+                                    // Publicar resultados de pruebas
+                                    publishTestResults testResultsPattern: '**/surefire-reports/*.xml'
+                                    
+                                    // Generar reporte de cobertura
+                                    sh 'mvn jacoco:report'
+                                    
+                                    // Publicar cobertura de código
+                                    publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], 
+                                                   sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                                    
+                                    // Verificar umbral de cobertura
+                                    script {
+                                        def coverageFile = readFile('target/site/jacoco/jacoco.xml')
+                                        def coverage = new XmlSlurper().parseText(coverageFile)
+                                        def lineCoverage = coverage.counter.find { it.@type == 'LINE' }.@covered.toInteger()
+                                        def totalLines = coverage.counter.find { it.@type == 'LINE' }.@covered.toInteger() + 
+                                                       coverage.counter.find { it.@type == 'LINE' }.@missed.toInteger()
+                                        def coveragePercentage = (lineCoverage / totalLines * 100).round(2)
+                                        
+                                        echo "📊 Cobertura de código RRHH: ${coveragePercentage}%"
+                                        
+                                        if (coveragePercentage < env.COVERAGE_THRESHOLD.toInteger()) {
+                                            error "❌ Cobertura de código (${coveragePercentage}%) está por debajo del umbral mínimo (${env.COVERAGE_THRESHOLD}%)"
+                                        } else {
+                                            echo "✅ Cobertura de código cumple con el umbral mínimo"
+                                        }
                                     }
                                 }
+                            } else {
+                                error "❌ ERROR: No se encontró el módulo rrhh o su pom.xml"
                             }
                         }
                     }
