@@ -99,32 +99,124 @@ pipeline {
             }
         }
         
+        stage('Checkout del Repositorio') {
+            steps {
+                script {
+                    echo "=== CHECKOUT DEL REPOSITORIO ==="
+                    
+                    // Checkout explícito del repositorio con todos los submódulos
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']], // o '*/master' según tu rama principal
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [
+                            [$class: 'SubmoduleOption', 
+                             disableSubmodules: false, 
+                             recursiveSubmodules: true, 
+                             trackingSubmodules: false],
+                            [$class: 'CleanBeforeCheckout'],
+                            [$class: 'CleanCheckout'],
+                            [$class: 'CloneOption', 
+                             depth: 0, 
+                             noTags: false, 
+                             reference: '', 
+                             shallow: false]
+                        ],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[
+                            credentialsId: '', // Agregar credenciales si es necesario
+                            url: 'https://github.com/tu-usuario/sgvet.git' // Reemplazar con tu URL real
+                        ]]
+                    ])
+                    
+                    // Verificar el checkout
+                    echo "=== VERIFICACIÓN DEL CHECKOUT ==="
+                    sh 'pwd'
+                    sh 'ls -la'
+                    sh 'git status'
+                    sh 'git log --oneline -5'
+                    
+                    // Verificar submódulos si existen
+                    sh 'git submodule status || echo "No hay submódulos configurados"'
+                }
+            }
+        }
+        
         stage('Validación de Estructura del Proyecto') {
             steps {
                 script {
                     echo "=== VALIDACIÓN DE ESTRUCTURA DEL PROYECTO ==="
                     
+                    // Mostrar información del workspace
+                    echo "=== INFORMACIÓN DEL WORKSPACE ==="
+                    sh 'pwd'
+                    sh 'ls -la'
+                    
+                    // Verificar si estamos en el directorio correcto
+                    if (!fileExists('.git')) {
+                        error "❌ ERROR: No se detectó un repositorio Git. Verificar el checkout."
+                    }
+                    
                     def modules = ['base', 'cliente', 'proveedor', 'mascota', 'rrhh']
                     def missingModules = []
                     def missingPoms = []
+                    def foundModules = []
                     
+                    echo "=== VERIFICACIÓN DE MÓDULOS ==="
                     modules.each { module ->
                         if (!fileExists(module)) {
                             missingModules.add(module)
                             echo "❌ Módulo ${module} no encontrado"
                         } else {
+                            foundModules.add(module)
                             if (!fileExists("${module}/pom.xml")) {
                                 missingPoms.add(module)
                                 echo "❌ pom.xml no encontrado en módulo ${module}"
                             } else {
                                 echo "✅ Módulo ${module} y su pom.xml encontrados"
+                                
+                                // Mostrar información del pom.xml
+                                def pomContent = readFile("${module}/pom.xml")
+                                def artifactId = pomContent =~ /<artifactId>([^<]+)<\/artifactId>/
+                                if (artifactId) {
+                                    echo "   📦 ArtifactId: ${artifactId[0][1]}"
+                                }
                             }
                         }
                     }
                     
-                    // Mostrar estructura de directorios
-                    echo "=== ESTRUCTURA DEL WORKSPACE ==="
-                    sh 'find . -name "pom.xml" -type f | head -20'
+                    // Mostrar estructura completa del proyecto
+                    echo "=== ESTRUCTURA COMPLETA DEL PROYECTO ==="
+                    sh 'find . -type d -name "src" | head -10'
+                    sh 'find . -name "pom.xml" -type f'
+                    
+                    // Mostrar contenido de directorios encontrados
+                    if (!foundModules.isEmpty()) {
+                        echo "=== CONTENIDO DE MÓDULOS ENCONTRADOS ==="
+                        foundModules.each { module ->
+                            echo "📁 Módulo ${module}:"
+                            sh "ls -la ${module}/"
+                        }
+                    }
+                    
+                    // Verificar si hay un pom.xml padre en la raíz
+                    if (fileExists('pom.xml')) {
+                        echo "✅ pom.xml padre encontrado en la raíz"
+                        def rootPom = readFile('pom.xml')
+                        if (rootPom.contains('<modules>')) {
+                            echo "📦 Proyecto multi-módulo detectado"
+                        } else {
+                            echo "📦 Proyecto simple detectado"
+                        }
+                    } else {
+                        echo "ℹ️ No hay pom.xml en la raíz (proyecto modular independiente)"
+                    }
+                    
+                    // Mostrar resumen y errores
+                    echo "=== RESUMEN DE VALIDACIÓN ==="
+                    echo "Módulos encontrados: ${foundModules.size()}/${modules.size()}"
+                    echo "Módulos faltantes: ${missingModules.size()}"
+                    echo "pom.xml faltantes: ${missingPoms.size()}"
                     
                     if (!missingModules.isEmpty()) {
                         error "❌ ERROR: Módulos faltantes: ${missingModules.join(', ')}"
