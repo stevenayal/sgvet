@@ -9,9 +9,16 @@
         <option value="$PROJECT_DIR$/../baseUI/pom.xml" />
         <option value="$PROJECT_DIR$/../mascota/pom.xml" />
         <option value="$PROJECT_DIR$/../proveedor/pom.xml" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/../rrhh/pom.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK" />
+=======
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
 </project>

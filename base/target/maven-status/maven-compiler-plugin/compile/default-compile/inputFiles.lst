@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 C:\Users\Hernan\Documents\repositorio\sgvet\base\src\main\java\com\sgvet\base\boundary\BaseDbManager.java
 C:\Users\Hernan\Documents\repositorio\sgvet\base\src\main\java\com\sgvet\usuario\boundary\UsuarioManager.java
 C:\Users\Hernan\Documents\repositorio\sgvet\base\src\main\java\com\sgvet\usuario\control\UsuarioController.java
+=======
+/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/src/main/java/com/sgvet/base/boundary/BaseDbManager.java
+/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/src/main/java/com/sgvet/usuario/boundary/UsuarioManager.java
+/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/src/main/java/com/sgvet/usuario/control/UsuarioController.java
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
