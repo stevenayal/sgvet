@@ -7,3 +7,14 @@ base/target/*
 mascota/target/
 mascota/target/*
 .git/
+.idea/
+base/.idea/*
+mascota/.idea/
+cliente/.idea/
+base/derby.log
+mascota/derby.log
+cliente/derby.log
+base/target/maven-status/*
+mascota/target/maven-status/*
+cliente/target/maven-status/*   
+proveedor/target/maven-status/*   

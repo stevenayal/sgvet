@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 com\sgvet\cliente\boundary\ClienteRepository.class
 com\sgvet\cliente\entity\Cliente.class
 com\sgvet\cliente\boundary\ClienteUI.class
 com\sgvet\cliente\control\ClienteController.class
 com\sgvet\cliente\boundary\ClienteDbManager.class
+=======
+com/sgvet/cliente/control/ClienteController.class
+com/sgvet/cliente/boundary/ClienteRepository.class
+com/sgvet/cliente/boundary/ClienteUI.class
+com/sgvet/cliente/entity/Cliente.class
+com/sgvet/cliente/boundary/ClienteDbManager.class
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539

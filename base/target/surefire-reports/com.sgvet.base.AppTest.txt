@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.sgvet.base.AppTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.sgvet.base.AppTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in com.sgvet.base.AppTest
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539

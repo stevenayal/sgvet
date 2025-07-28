@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sgvet.base.AppTest" time="0.013" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
@@ -55,6 +56,59 @@
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Eclipse Adoptium"/>
     <property name="java.vm.version" value="17.0.15+6"/>
+=======
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sgvet.base.AppTest" time="0.018" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/test-classes:/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/classes:/home/victor/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/victor/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar:/home/victor/.m2/repository/org/apache/derby/derbyshared/10.15.2.0/derbyshared-10.15.2.0.jar:"/>
+    <property name="java.vm.vendor" value="Red Hat, Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://www.redhat.com/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="PY"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-17.0.15.0.6-2.el9.x86_64/lib"/>
+    <property name="sun.java.command" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/surefire/surefirebooter-20250725184726816_3.jar /home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/surefire 2025-07-25T18-47-26_543-jvmRun1 surefire-20250725184726816_1tmp surefire_0-20250725184726816_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/test-classes:/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/classes:/home/victor/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/victor/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar:/home/victor/.m2/repository/org/apache/derby/derbyshared/10.15.2.0/derbyshared-10.15.2.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/victor"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-04-15"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-17.0.15.0.6-2.el9.x86_64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/target/surefire/surefirebooter-20250725184726816_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.15+6-LTS"/>
+    <property name="user.name" value="victor"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="5.14.0-570.22.1.el9_6.x86_64"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="(Red_Hat-17.0.15.0.6-1)"/>
+    <property name="localRepository" value="/home/victor/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://access.redhat.com/support/cases/"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="idea.version" value="2025.1.4.1"/>
+    <property name="java.version" value="17.0.15"/>
+    <property name="user.dir" value="/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Red Hat, Inc."/>
+    <property name="java.vm.version" value="17.0.15+6-LTS"/>
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
     <property name="java.specification.maintenance.version" value="1"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>

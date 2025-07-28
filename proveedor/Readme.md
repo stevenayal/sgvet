@@ -3,3 +3,4 @@ Funcionalidades
 * Consultar proveedores
 * Registrar proveedores
 * Editar Proveedor
+* Registrar Compras
