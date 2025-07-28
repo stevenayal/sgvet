@@ -17,6 +17,9 @@
     <maven.compiler.target>11</maven.compiler.target>
     <junit.version>5.10.0</junit.version>
     <mockito.version>5.7.0</mockito.version>
+    <jacoco.version>0.8.11</jacoco.version>
+    <surefire.version>3.0.0</surefire.version>
+    <coverage.threshold>80</coverage.threshold>
   </properties>
 
   <dependencies>
@@ -70,18 +73,177 @@
         </configuration>
       </plugin>
 
-      <!-- Plugin de tests -->
+      <!-- Plugin de tests mejorado -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>${surefire.version}</version>
         <configuration>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>
           </includes>
+          <excludes>
+            <exclude>**/*IntegrationTest.java</exclude>
+          </excludes>
+          <argLine>${jacocoArgLine}</argLine>
+          <systemPropertyVariables>
+            <java.io.tmpdir>${project.build.directory}/tmp</java.io.tmpdir>
+          </systemPropertyVariables>
         </configuration>
+      </plugin>
+
+      <!-- Plugin JaCoCo para cobertura de código -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <!-- Preparar agente JaCoCo -->
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <propertyName>jacocoArgLine</propertyName>
+              <destFile>${project.build.directory}/jacoco.exec</destFile>
+            </configuration>
+          </execution>
+          
+          <!-- Ejecutar análisis después de las pruebas -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <formats>
+                <format>XML</format>
+                <format>HTML</format>
+              </formats>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+            </configuration>
+          </execution>
+          
+          <!-- Verificar cobertura -->
+          <execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${coverage.threshold}%</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${coverage.threshold}%</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Plugin de reportes -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>4.0.0-M9</version>
+        <configuration>
+          <locales>es</locales>
+        </configuration>
+      </plugin>
+
+      <!-- Plugin de dependencias -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>analyze</id>
+            <goals>
+              <goal>analyze</goal>
+            </goals>
+            <configuration>
+              <failOnWarning>false</failOnWarning>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- Perfil para Jenkins CI/CD -->
+    <profile>
+      <id>jenkins</id>
+      <activation>
+        <property>
+          <name>env.JENKINS_URL</name>
+        </property>
+      </activation>
+      <properties>
+        <coverage.threshold>80</coverage.threshold>
+        <test.failure.ignore>true</test.failure.ignore>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${jacocoArgLine} -Xmx1024m -XX:MaxMetaspaceSize=256m</argLine>
+              <systemPropertyVariables>
+                <jacoco-agent.destfile>${project.build.directory}/jacoco.exec</jacoco-agent.destfile>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- Perfil para desarrollo local -->
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <coverage.threshold>70</coverage.threshold>
+      </properties>
+    </profile>
+
+    <!-- Perfil para pruebas específicas de RRHH -->
+    <profile>
+      <id>rrhh-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/RRHH*Test.java</include>
+                <include>**/EvaluacionDesempeno*Test.java</include>
+              </includes>
+              <argLine>${jacocoArgLine} -Xmx1024m -XX:MaxMetaspaceSize=256m</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
