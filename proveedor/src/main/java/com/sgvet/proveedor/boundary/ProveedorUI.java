@@ -1,4 +1,5 @@
 package com.sgvet.proveedor.boundary;
+import com.sgvet.proveedor.boundary.CompraUI;
 import com.sgvet.proveedor.control.ProveedorController;
 import com.sgvet.proveedor.entity.Proveedor;
 
@@ -23,6 +24,7 @@ public class ProveedorUI {
             System.out.println("2. Listar Proveedors");
             System.out.println("3. Eliminar proveedor");
             System.out.println("4. Buscar proveedor");
+            System.out.println("5. Ir a Gestión de Compras");
             System.out.println("0. Volver al menu principal");
             System.out.print("Seleccione una opcion (0-4): ");
 
@@ -41,6 +43,9 @@ public class ProveedorUI {
                         break;
                     case 4:
                         buscarProveedor(scanner);
+                        break;
+                    case 5:
+                        CompraUI.menuCompras();
                         break;
                     case 0:
                         System.out.println("Volviendo al menu principal...");

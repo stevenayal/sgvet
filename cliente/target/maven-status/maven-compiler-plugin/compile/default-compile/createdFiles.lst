@@ -1,5 +1,5 @@
 com/sgvet/cliente/control/ClienteController.class
 com/sgvet/cliente/boundary/ClienteRepository.class
-com/sgvet/cliente/entity/Cliente.class
 com/sgvet/cliente/boundary/ClienteUI.class
+com/sgvet/cliente/entity/Cliente.class
 com/sgvet/cliente/boundary/ClienteDbManager.class

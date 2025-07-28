@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Jul 18 19:41:01 PYT 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0198-1fe9-9f42-00000f82d5b8 
-on database directory memory:/Users/cbustamante/Documents/repositorio/UCOM/sgvet/base/sgvetDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1dbd16a6 
-Loaded from file:/Users/cbustamante/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=Amazon.com Inc.
-java.runtime.version=17.0.14+7-LTS
-user.dir=/Users/cbustamante/Documents/repositorio/UCOM/sgvet/base
-os.name=Mac OS X
-os.arch=aarch64
-os.version=15.4.1
+Fri Jul 25 19:46:59 GMT-03:00 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0198-43c4-ab64-00000ea13000 
+on database directory memory:/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base/sgvetDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1dbd16a6 
+Loaded from file:/home/victor/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Red Hat, Inc.
+java.runtime.version=17.0.15+6-LTS
+user.dir=/home/victor/Documentos/UCOM/3erAño/Seminario-cl_2025_00147/sgvet/base
+os.name=Linux
+os.arch=amd64
+os.version=5.14.0-570.22.1.el9_6.x86_64
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
