@@ -12,7 +12,7 @@ pipeline {
         // Configuración del repositorio - CONFIGURADO PARA TU REPOSITORIO
         REPO_URL = 'https://github.com/stevenayal/sgvet.git'
         REPO_BRANCH = 'rrhh_tl' // Rama específica de tu repositorio
-        CREDENTIALS_ID = '' // ID de las credenciales configuradas en Jenkins
+        CREDENTIALS_ID = 'd5f23b7491ad482b8519debed83faeee' // ID de las credenciales configuradas en Jenkins
     }
     
     options {
