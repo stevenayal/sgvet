@@ -15,6 +15,7 @@ public class BaseDbManagerTest {
         BaseDbManager instance2 = BaseDbManager.getInstance();
         Assert.assertNotNull(instance1);
         Assert.assertSame(instance1, instance2);
+        instance1.isNewDatabase("dbname");
     }
 
     @Test

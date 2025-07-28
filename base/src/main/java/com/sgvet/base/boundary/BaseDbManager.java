@@ -88,12 +88,8 @@ public class BaseDbManager {
         }
     }
 
-    private boolean isNewDatabase(String dbName) {
+    protected boolean isNewDatabase(String dbName) {
         return !Paths.get(dbName).toFile().exists();
     }
 
-    public static void main(String[] args) {
-        BaseDbManager dbConnection = new BaseDbManager();
-        logger.info("Base de datos inicializada correctamente.");
-    }
 }
