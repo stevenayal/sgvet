@@ -12,9 +12,35 @@ public class RRHHController {
 
     public Boolean crearRRHH(RRHH RRHH) {
         try {
-            // rrhhRepository.insertar(RRHH);
-            return true;
+            // Validar que el RRHH no sea null y tenga ID válido
+            if (RRHH == null || RRHH.getId() == null) {
+                System.err.println("Error: No se puede crear un RRHH con ID null");
+                return false;
+            }
+
+            // Validar que los datos del empleado sean válidos
+            if (!RRHHValidador.validarEmpleado(RRHH)) {
+                System.err.println("Error: Los datos del empleado no son válidos");
+                return false;
+            }
+
+            // Verificar que no exista un RRHH con el mismo ID
+            RRHH existente = rrhhRepository.buscarPorId(RRHH.getId());
+            if (existente != null) {
+                System.err.println("Error: Ya existe un RRHH con el ID " + RRHH.getId());
+                return false;
+            }
+
+            // Intentar insertar en la base de datos
+            boolean resultado = rrhhRepository.insertar(RRHH);
+            if (resultado) {
+                System.out.println("RRHH creado exitosamente: " + RRHH.getNombre() + " " + RRHH.getApellido());
+            } else {
+                System.err.println("Error: No se pudo insertar el RRHH en la base de datos");
+            }
+            return resultado;
         } catch (Exception e) {
+            System.err.println("Error al crear RRHH: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -24,18 +50,38 @@ public class RRHHController {
         return rrhhRepository.listarTodos();
     }
 
-    public void eliminarRRHH(int id) {
-        // rrhhRepository.eliminarPorId(id);
+    // Versión final: devuelve boolean, elimina por id
+    public boolean eliminarRRHH(int id) {
+        try {
+            // Verificar que el RRHH existe antes de eliminar
+            RRHH existente = rrhhRepository.buscarPorId(id);
+            if (existente == null) {
+                System.err.println("Error: No existe un RRHH con el ID " + id);
+                return false;
+            }
+            
+            boolean resultado = rrhhRepository.eliminarPorId(id);
+            if (resultado) {
+                System.out.println("RRHH eliminado exitosamente: " + existente.getNombre() + " " + existente.getApellido());
+            } else {
+                System.err.println("Error: No se pudo eliminar el RRHH con ID " + id);
+            }
+            return resultado;
+        } catch (Exception e) {
+            System.err.println("Error al eliminar RRHH: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public RRHH buscarRRHH(int id) {
-        List<RRHH> lista = rrhhRepository.listarTodos();
-        for (RRHH rrhh : lista) {
-            if (rrhh.getId() == id) {
-                return rrhh;
-            }
+        try {
+            return rrhhRepository.buscarPorId(id);
+        } catch (Exception e) {
+            System.err.println("Error al buscar RRHH con ID " + id + ": " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-        return null; // Si no se encuentra
     }
 
     public boolean solicitarVacaciones(int id, String fechaInicio, String fechaFin) {
@@ -72,33 +118,70 @@ public class RRHHController {
         try {
             // Validar que el empleado exista
             if (empleadoActualizado.getId() == null) {
-                System.out.println("Error: El ID del empleado es requerido para la actualización");
+                System.err.println("Error: El ID del empleado es requerido para la actualización");
                 return false;
             }
             
             // Validar los datos del empleado
             if (!RRHHValidador.validarEmpleado(empleadoActualizado)) {
-                System.out.println("Error: Los datos del empleado no son válidos");
+                System.err.println("Error: Los datos del empleado no son válidos");
                 return false;
             }
             
             // Buscar el empleado existente
-            RRHH empleadoExistente = buscarRRHH(empleadoActualizado.getId());
+            RRHH empleadoExistente = rrhhRepository.buscarPorId(empleadoActualizado.getId());
             if (empleadoExistente == null) {
-                System.out.println("Error: No se encontró el empleado con ID " + empleadoActualizado.getId());
+                System.err.println("Error: No se encontró el empleado con ID " + empleadoActualizado.getId());
                 return false;
             }
             
             // Actualizar en la base de datos
-            rrhhRepository.actualizar(empleadoActualizado);
-            
-            System.out.println("Empleado actualizado exitosamente: " + empleadoActualizado.getNombre() + " " + empleadoActualizado.getApellido());
-            return true;
+            boolean resultado = rrhhRepository.actualizar(empleadoActualizado);
+            if (resultado) {
+                System.out.println("Empleado actualizado exitosamente: " + empleadoActualizado.getNombre() + " " + empleadoActualizado.getApellido());
+            } else {
+                System.err.println("Error: No se pudo actualizar el empleado en la base de datos");
+            }
+            return resultado;
             
         } catch (Exception e) {
-            System.out.println("Error al actualizar empleado: " + e.getMessage());
+            System.err.println("Error al actualizar empleado: " + e.getMessage());
             e.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * Limpia todos los registros de RRHH (útil para tests)
+     * @return true si la limpieza fue exitosa, false en caso contrario
+     */
+    public boolean limpiarTodosLosRRHH() {
+        try {
+            boolean resultado = rrhhRepository.limpiarTabla();
+            if (resultado) {
+                System.out.println("Todos los registros de RRHH han sido eliminados");
+            } else {
+                System.err.println("Error: No se pudo limpiar la tabla de RRHH");
+            }
+            return resultado;
+        } catch (Exception e) {
+            System.err.println("Error al limpiar registros de RRHH: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Obtiene el siguiente ID disponible para inserción
+     * @return el siguiente ID disponible
+     */
+    public int obtenerSiguienteId() {
+        try {
+            return rrhhRepository.obtenerSiguienteId();
+        } catch (Exception e) {
+            System.err.println("Error al obtener siguiente ID: " + e.getMessage());
+            e.printStackTrace();
+            return 1; // Valor por defecto
         }
     }
 }
