@@ -26,3 +26,16 @@ INSERT INTO RRHH (ID, NOMBRE, APELLIDO, CEDULA, TELEFONO, CORREO, CARGO, ESPECIA
 (1, 'Ana', 'Gómez', '1234567', '0981-111111', 'ana.gomez@vet.com', 'Veterinario', 'Cirugía'),
 (2, 'Luis', 'Martínez', '2345678', '0981-222222', 'luis.martinez@vet.com', 'Asistente', 'Clínica'),
 (3, 'María', 'Fernández', '3456789', '0981-333333', 'maria.fernandez@vet.com', 'Recepcionista', 'Administración');
+
+-- Tabla para registrar evaluaciones de desempeño del personal
+CREATE TABLE EVALUACIONDESEMPENO (
+     ID INT PRIMARY KEY AUTO_INCREMENT,
+     ID_EMPLEADO INT NOT NULL,
+     FECHA DATE NOT NULL,
+     PUNTUALIDAD INT CHECK (PUNTUALIDAD BETWEEN 1 AND 10),
+     ATENCION_CLIENTE INT CHECK (ATENCION_CLIENTE BETWEEN 1 AND 10),
+     TRABAJO_EQUIPO INT CHECK (TRABAJO_EQUIPO BETWEEN 1 AND 10),
+     RESPONSABILIDAD INT CHECK (RESPONSABILIDAD BETWEEN 1 AND 10),
+     OBSERVACIONES VARCHAR(255),
+     FOREIGN KEY (ID_EMPLEADO) REFERENCES RRHH(ID)
+);
