@@ -6,9 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="sgvet" />
         <module name="sgvet (1) (com.sgvet.ui)" />
+        <module name="cliente" />
+        <module name="sgvet" />
+        <module name="ui" />
+<<<<<<< HEAD
+        <module name="rrhh" />
+=======
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
+        <module name="mascota" />
         <module name="sgvet (1) (com.sgvet.cliente)" />
+        <module name="proveedor" />
+        <module name="base" />
       </profile>
     </annotationProcessing>
   </component>

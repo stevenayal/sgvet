@@ -7,5 +7,14 @@
     <file url="file://$PROJECT_DIR$/../baseUI/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../cliente/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../cliente/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../mascota/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../mascota/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../proveedor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../proveedor/src/main/resources" charset="UTF-8" />
+<<<<<<< HEAD
+    <file url="file://$PROJECT_DIR$/../rrhh/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../rrhh/src/main/resources" charset="UTF-8" />
+=======
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
   </component>
 </project>
