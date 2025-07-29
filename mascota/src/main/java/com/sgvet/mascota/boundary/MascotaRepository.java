@@ -12,6 +12,18 @@ public class MascotaRepository {
     public MascotaRepository() {
     }
 
+    public boolean eliminarPorId(int id) {
+        String sql = "DELETE FROM Mascota WHERE ID = ?";
+        try (PreparedStatement ps = MascotaDbManager.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int affected = ps.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public List<Mascota> listarTodos() {
         List<Mascota> Mascotas = new ArrayList<>();

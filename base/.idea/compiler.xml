@@ -10,7 +10,10 @@
         <module name="cliente" />
         <module name="sgvet" />
         <module name="ui" />
+<<<<<<< HEAD
         <module name="rrhh" />
+=======
+>>>>>>> 4df18d401e338b3429407a6d218896584edeb539
         <module name="mascota" />
         <module name="sgvet (1) (com.sgvet.cliente)" />
         <module name="proveedor" />

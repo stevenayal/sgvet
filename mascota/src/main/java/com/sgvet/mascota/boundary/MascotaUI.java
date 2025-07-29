@@ -76,8 +76,20 @@ public class MascotaUI {
     }
 
     private static void eliminarMascota(Scanner scanner) {
-        System.out.println("Funcionalidad para eliminar mascota (pendiente de implementar).");
-        // Aquí iría la lógica para eliminar un mascota
+        System.out.print("Ingrese el ID de la mascota a eliminar: ");
+        if (scanner.hasNextInt()) {
+            int id = scanner.nextInt();
+            scanner.nextLine(); // Clean buffer
+            boolean eliminado = mascotaController.eliminarMascota(id);
+            if (eliminado) {
+                System.out.println("Mascota eliminada exitosamente.");
+            } else {
+                System.out.println("No se encontró una mascota con ese ID.");
+            }
+        } else {
+            System.out.println("ID inválido.");
+            scanner.next(); // Clean invalid input
+        }
     }
 
     private static void buscarMascota(Scanner scanner) {
