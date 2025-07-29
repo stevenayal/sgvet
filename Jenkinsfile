@@ -57,7 +57,7 @@ pipeline {
 
                 dir('rrhh') {
                     withSonarQubeEnv("${SONARQUBE_ENV}") {
-                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-RRHH'
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet-RRHH -Dsonar.projectName=SgVet-RRHH'
                     }
                 }
             }
