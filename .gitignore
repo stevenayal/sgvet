@@ -3,6 +3,7 @@ target/
 sgvetDB/
 cliente/target/*
 cliente/target/
+base/target
 base/target/
 base/target/*
 mascota/target/
