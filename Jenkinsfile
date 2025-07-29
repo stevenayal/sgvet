@@ -24,6 +24,9 @@ pipeline {
                 dir('mascota') { // Cambia 'base' por el nombre de tu carpeta
                     sh 'mvn clean install'
                 }
+                dir('rrhh') { // Cambia 'base' por el nombre de tu carpeta
+                    sh 'mvn clean install'
+                }
             }
         }
          stage('SonarQube Analysis') {
@@ -33,21 +36,32 @@ pipeline {
                         sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Base'
                     }
                 }
+
+                dir('cliente') {
+                    withSonarQubeEnv("${SONARQUBE_ENV}") {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Cliente'
+                    }
+                }
+
+                dir('proveedor') {
+                    withSonarQubeEnv("${SONARQUBE_ENV}") {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Proveedor'
+                    }
+                }
+
+                dir('mascota') {
+                    withSonarQubeEnv("${SONARQUBE_ENV}") {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Mascota'
+                    }
+                }
+
+                dir('rrhh') {
+                    withSonarQubeEnv("${SONARQUBE_ENV}") {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-RRHH'
+                    }
+                }
             }
         }
 
-        // stage('Quality Gate Check') {
-        //     steps {
-        //         timeout(time: 1, unit: 'HOURS') { // Timeout for the quality gate check
-        //             // 'waitForQualityGate' waits for the SonarQube analysis to complete and checks the quality gate status
-        //             def qualityGate = waitForQualityGate()
-        //             if (qualityGate.status != 'OK') {
-        //                 error "Pipeline aborted due to quality gate failure: ${qualityGate.status}"
-        //             } else {
-        //                 echo "SonarQube Quality Gates Passed: ${qualityGate.status}"
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
