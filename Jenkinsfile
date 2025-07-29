@@ -33,7 +33,7 @@ pipeline {
             steps {
                 dir('base') {
                     withSonarQubeEnv("${SONARQUBE_ENV}") {
-                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet -Dsonar.projectName=SgVet-Base'
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.projectKey=sgVet-Base -Dsonar.projectName=SgVet-Base'
                     }
                 }
 
